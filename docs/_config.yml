@@ -1,0 +1,428 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely edit after that. If you find
+# yourself editing this file very often, consider using Jekyll's data files
+# feature for the data you need to update frequently.
+#
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+title: Bellatrix Docs
+email: aangelov@bellatrix.solutions
+description: >- # this means to ignore newlines until "baseurl:"
+  Here you can find rich documentation about the different features and configurations of Bellatrix Test Framework.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://docs.bellatrix.solutions" # the base hostname & protocol for your site, e.g. http://example.com
+#twitter_username: jekyllrb
+#github_username:  jekyll
+permalink: /:title/
+#source: jekyll
+#destination: documentation 
+# Build settings
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+# theme: minima
+plugins:
+
+# Exclude from processing.
+# The following items will not be processed, by default. Create a custom list
+# to override the default setting.
+# exclude:
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/
+navigation: 
+    "overview":
+        title: Overview
+        submenu:
+    "general-information":
+        title: General Information
+        submenu:
+            "system-requirements":
+                title: System Requirements
+            "installation-windows":
+                title: Installation Windows
+            "installation-macos":
+                title: Installation MacOS
+            "installation-linux":
+                title: Installation Linux   
+            "activation":
+                title: Activation
+            "how-to-use-starter-kits":
+                title: How to Use Starter Kits?
+    "web-automation":
+        title: Web
+        submenu:
+            "control-browser":
+                title: Control Browser
+            "navigate-to-pages":
+                title: Navigate to Pages
+            "locate-elements":
+                title: Locate Elements
+            "locate-and-wait-elements":
+                title: Locate and Wait Elements
+            "wait-for-elements":
+                title: Wait for Elements
+            "browser-service":
+                title: BrowserService
+            "dialog-service":
+                title: DialogService
+            "cookies-service":
+                title: CookiesService
+            "javascript-service":
+                title: JavaScriptService
+            "common-controls":
+                title: Common Controls
+            "normal-assertions":
+                title: Normal Assertions
+            "ensure-assertions":
+                title: Ensure Assertions
+            "bdd-logging":
+                title: BDD Logging
+            "page-objects":
+                title: Page Objects
+            "layout-testing":
+                title: Layout Testing
+            "troubleshooting-full-page-screenshots-on-fail":
+                title: Troubleshooting- Full Page Screenshots on Fail
+            "troubleshooting-video-recording":
+                title: Troubleshooting- Video Recording
+            "troubleshooting-failed-tests-analysis":
+                title: Troubleshooting- Failed Tests Analysis
+            "elements-snippets":
+                title: Elements Snippets
+            "capture-http-traffic":
+                title: Capture HTTP Traffic
+            "execute-tests-selenium-grid":
+                title: Execute Tests in Selenium Grid
+            "execute-tests-saucelabs":
+                title: Execute Tests in SauceLabs
+            "execute-tests-browserstack":
+                title: Execute Tests in BrowserStack
+            "execute-tests-crossbrowsertesting":
+                title: Execute Tests in CrossBrowserTesting
+            "add-custom-webdriver-capabilities-options":
+                title: Add Custom WebDriver Capabilities and Options
+            "static-analysis":
+                title: Static Analysis
+            "logging":
+                title: Logging
+            "measure-test-execution-times": 
+                title: Measure Response Times
+            "load-testing": 
+                title: Web Load Testing
+            "extensibility-test-workflow-hooks":
+                title: Extensibility- Test Workflow Hooks
+            "extensibility-custom-test-workflow-plugins":
+                title: Extensibility- Custom Test Workflow Plugins
+            "extensibility-override-globally-element-actions":
+                title: Extensibility- Override Globally Element Actions
+            "extensibility-override-locally-element-actions":
+                title: Extensibility- Override Locally Element Actions
+            "extensibility-element-action-hooks":
+                title: Extensibility- Element Action Hooks
+            "extensibility-common-services-action-hooks":
+                title: Extensibility- Common Services Action Hooks
+            "extensibility-extend-existing-elements-extension-methods":
+                title: Extensibility- Extend Elements Extension Methods
+            "extensibility-extend-existing-elements-child-elements":
+                title: Extensibility- Extend Elements Child Elements
+            "extensibility-extend-common-services":
+                title: Extensibility- Extend Common Services
+            "extensibility-add-new-find-locators":  
+                title: Extensibility- Add New Find Locators
+            "extensibility-add-new-element-wait-methods": 
+                title: Extensibility- Add New Element Wait Methods
+            "templates":
+                title: Templates
+            "folder-and-file-structure":
+                title: Folder and File Structure
+    "android-automation":
+        title: Android
+        submenu:
+            "control-app":
+                title: Control App
+            "navigate-to-activities":
+                title: Navigate To Activities
+            "locate-elements":
+                title: Locate Elements
+            "locate-and-wait-elements":
+                title: Locate and Wait Elements
+            "wait-for-elements":
+                title: Wait for Elements
+            "app-service":
+                title: AppService
+            "device-service":
+                title: DeviceService
+            "file-system-service":
+                title: FileSystemService
+            "keyboard-service":
+                title: KeyboardService
+            "touch-actions-service":
+                title: TouchActionsService
+            "web-service":
+                title: WebService
+            "common-controls":
+                title: Common Controls
+            "normal-assertions":
+                title: Normal Assertions
+            "ensure-assertions":
+                title: Ensure Assertions
+            "bdd-logging":
+                title: BDD Logging
+            "page-objects":
+                title: Page Objects
+            "layout-testing":
+                title: Layout Testing
+            "troubleshooting-screenshots-on-fail":
+                title: Troubleshooting- Screenshots on Fail
+            "troubleshooting-video-recording":
+                title: Troubleshooting- Video Recording
+            "elements-snippets":
+                title: Elements Snippets
+            "execute-tests-saucelabs":
+                title: Execute Tests in SauceLabs
+            "execute-tests-browserstack":
+                title: Execute Tests in BrowserStack
+            "execute-tests-crossbrowsertesting":
+                title: Execute Tests in CrossBrowserTesting
+            "add-custom-appium-options":
+                title: Add Custom Appium Capabilities
+            "static-analysis":
+                title: Static Analysis
+            "logging":
+                title: Logging
+            "measure-test-execution-times": 
+                title: Measure Response Times
+            "extensibility-test-workflow-hooks":
+                title: Extensibility- Test Workflow Hooks
+            "extensibility-custom-test-workflow-plugins":
+                title: Extensibility- Custom Test Workflow Plugins
+            "extensibility-override-globally-element-actions":
+                title: Extensibility- Override Globally Element Actions
+            "extensibility-override-locally-element-actions":
+                title: Extensibility- Override Locally Element Actions
+            "extensibility-element-action-hooks":
+                title: Extensibility- Element Action Hooks
+            "extensibility-common-services-action-hooks":
+                title: Extensibility- Common Services Action Hooks
+            "extensibility-extend-existing-elements-extension-methods":
+                title: Extensibility- Extend Elements Extension Methods
+            "extensibility-extend-existing-elements-child-elements":
+                title: Extensibility- Extend Elements Child Elements
+            "extensibility-extend-common-services":
+                title: Extensibility- Extend Common Services
+            "extensibility-add-new-find-locators": 
+                title: Extensibility- Add New Find Locators
+            "extensibility-add-new-element-wait-methods":
+                title: Extensibility- Add New Element Wait Methods
+            "templates":
+                title: Templates
+            "folder-and-file-structure":
+                title: Folder and File Structure
+    "ios-automation":
+        title: iOS
+        submenu:
+            "control-app":
+                title: Control App
+            "locate-elements":
+                title: Locate Elements
+            "locate-and-wait-elements":
+                title: Locate and Wait Elements
+            "wait-for-elements":
+                title: Wait for Elements
+            "app-service":
+                title: AppService
+            "device-service":
+                title: DeviceService
+            "keyboard-service":
+                title: KeyboardService
+            "touch-actions-service":
+                title: TouchActionsService
+            "web-service":
+                title: WebService
+            "common-controls":
+                title: Common Controls
+            "normal-assertions":
+                title: Normal Assertions
+            "ensure-assertions":
+                title: Ensure Assertions
+            "bdd-logging":
+                title: BDD Logging
+            "page-objects":
+                title: Page Objects
+            "layout-testing":
+                title: Layout Testing
+            "troubleshooting-screenshots-on-fail":
+                title: Troubleshooting- Screenshots on Fail
+            "troubleshooting-video-recording":
+                title: Troubleshooting- Video Recording
+            "elements-snippets":
+                title: Elements Snippets
+            "execute-tests-saucelabs":
+                title: Execute Tests in SauceLabs
+            "execute-tests-browserstack":
+                title: Execute Tests in BrowserStack
+            "execute-tests-crossbrowsertesting":
+                title: Execute Tests in CrossBrowserTesting
+            "add-custom-appium-options":
+                title: Add Custom Appium Capabilities
+            "static-analysis":
+                title: Static Analysis
+            "logging":
+                title: Logging
+            "measure-test-execution-times": 
+                title: Measure Response Times
+            "extensibility-test-workflow-hooks":
+                title: Extensibility- Test Workflow Hooks
+            "extensibility-custom-test-workflow-plugins":
+                title: Extensibility- Custom Test Workflow Plugins
+            "extensibility-override-globally-element-actions":
+                title: Extensibility- Override Globally Element Actions
+            "extensibility-override-locally-element-actions":
+                title: Extensibility- Override Locally Element Actions
+            "extensibility-element-action-hooks":
+                title: Extensibility- Element Action Hooks
+            "extensibility-common-services-action-hooks":
+                title: Extensibility- Common Services Action Hooks
+            "extensibility-extend-existing-elements-extension-methods":
+                title: Extensibility- Extend Elements Extension Methods
+            "extensibility-extend-existing-elements-child-elements":
+                title: Extensibility- Extend Elements Child Elements
+            "extensibility-extend-common-services":
+                title: Extensibility- Extend Common Services
+            "extensibility-add-new-find-locators": 
+                title: Extensibility- Add New Find Locators
+            "extensibility-add-new-element-wait-methods":
+                title: Extensibility- Add New Element Wait Methods
+            "templates":
+                title: Templates
+            "folder-and-file-structure":
+                title: Folder and File Structure
+    "desktop-automation":
+        title: Desktop
+        submenu:
+            "control-app":
+                title: Control App
+            "locate-elements":
+                title: Locate Elements
+            "locate-and-wait-elements":
+                title: Locate and Wait Elements
+            "wait-for-elements":
+                title: Wait for Elements
+            "app-service":
+                title: AppService
+            "common-controls":
+                title: Common Controls
+            "normal-assertions":
+                title: Normal Assertions
+            "ensure-assertions":
+                title: Ensure Assertions
+            "bdd-logging":
+                title: BDD Logging
+            "page-objects":
+                title: Page Objects
+            "layout-testing":
+                title: Layout Testing
+            "troubleshooting-screenshots-on-fail":
+                title: Troubleshooting- Screenshots on Fail
+            "troubleshooting-video-recording":
+                title: Troubleshooting- Video Recording
+            "elements-snippets":
+                title: Elements Snippets
+            "add-custom-webdriver-capabilities":
+                title: Add Custom WebDriver Capabilities
+            "static-analysis":
+                title: Static Analysis
+            "logging":
+                title: Logging
+            "measure-test-execution-times": 
+                title: Measure Response Times
+            "extensibility-test-workflow-hooks":
+                title: Extensibility- Test Workflow Hooks
+            "extensibility-custom-test-workflow-plugins":
+                title: Extensibility- Custom Test Workflow Plugins
+            "extensibility-override-globally-element-actions":
+                title: Extensibility- Override Globally Element Actions
+            "extensibility-override-locally-element-actions":
+                title: Extensibility- Override Locally Element Actions
+            "extensibility-element-action-hooks":
+                title: Extensibility- Element Action Hooks
+            "extensibility-common-services-action-hooks":
+                title: Extensibility- Common Services Action Hooks
+            "extensibility-extend-existing-elements-extension-methods":
+                title: Extensibility- Extend Elements Extension Methods
+            "extensibility-extend-existing-elements-child-elements":
+                title: Extensibility- Extend Elements Child Elements
+            "extensibility-extend-common-services":
+                title: Extensibility- Extend Common Services
+            "extensibility-add-new-find-locators": 
+                title: Extensibility- Add New Find Locators
+            "extensibility-add-new-element-wait-methods":
+                title: Extensibility- Add New Element Wait Methods
+            "templates":
+                title: Templates
+            "folder-and-file-structure":
+                title: Folder and File Structure
+    "api-automation":
+        title: API
+        submenu:
+            "create-simple-get-request":
+                title: Create Simple Get Request
+            "all-request-types":
+                title: All Request Types
+            "assertions":
+                title: Assertions
+            "bdd-logging":
+                title: BDD Logging
+            "authentication":
+                title: Authentication
+            "retry-failed-requests":
+                title: Retry Failed Requests
+            "validate-json-and-xml-schema":
+                title: Validate JSON and XML Schema
+            "static-analysis":
+                title: Static Analysis
+            "logging":
+                title: Logging
+            "extensibility-test-workflow-hooks":
+                title: Extensibility- Test Workflow Hooks
+            "extensibility-custom-test-workflow-plugins":
+                title: Extensibility- Custom Test Workflow Plugins
+            "extensibility-api-client-hooks":
+                title: Extensibility- API Client Hooks
+            "extensibility-assertion-hooks":
+                title: Extensibility- Assertion Hooks
+            "load-testing":
+                title: Load Testing
+            "measure-response-times":
+                title: Measure Response Times
+            "templates":
+                title: Templates
+            "folder-and-file-structure":
+                title: Folder and File Structure    
+    "product-integrations":
+        title: Product Integrations
+        submenu:
+            "allure":
+                title: Allure
+            "zafira":
+                title: Zafira
+            "reportportal":
+                title: ReportPortal
+            "azuredevops":
+                title: Azure DevOps CI
+        
