@@ -12,88 +12,36 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
-public class CookiesServiceTests : WebTest
-{
-    [TestMethod]
-    public void GetAllCookies()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/welcome/");
+Feature: CommonServices
+	In order to use the browser
+	As a automation engineer
+	I want BELLATRIX to provide me handy method to do my job
 
-        App.CookieService.AddCookie("woocommerce_items_in_cart1", "3");
-        App.CookieService.AddCookie("woocommerce_items_in_cart2", "3");
-        App.CookieService.AddCookie("woocommerce_items_in_cart3", "3");
+Background: 
+Given I use Firefox browser on Windows
+And I reuse the browser if started
+And I open browser
 
-        var cookies = App.CookieService.GetAllCookies();
-
-        Assert.AreEqual(3, cookies.Count);
-    }
-
-    [TestMethod]
-    public void GetSpecificCookie()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/welcome/");
-
-        App.CookieService.AddCookie("woocommerce_items_in_cart", "3");
-
-        var itemsInCartCookie = App.CookieService.GetCookie("woocommerce_items_in_cart");
-
-        Assert.AreEqual("3", itemsInCartCookie);
-    }
-
-    [TestMethod]
-    public void DeleteAllCookies()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/welcome/");
-
-        var protonRocketAddToCartBtn = App.ElementCreateService.CreateAllByInnerTextContaining<Anchor>("Add to cart").First();
-        protonRocketAddToCartBtn.Click();
-
-        App.CookieService.DeleteAllCookies();
-    }
-
-    [TestMethod]
-    public void DeleteSpecificCookie()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/welcome/");
-
-        var protonRocketAddToCartBtn = App.ElementCreateService.CreateAllByInnerTextContaining<Anchor>("Add to cart").First();
-        protonRocketAddToCartBtn.Click();
-
-        App.CookieService.DeleteCookie("woocommerce_items_in_cart");
-    }
-
-    [TestMethod]
-    public void AddNewCookie()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/welcome/");
-
-        App.CookieService.AddCookie("woocommerce_items_in_cart", "3");
-    }
-}
+Scenario: Cookies Service Common Steps
+	When I navigate to URL http://demos.bellatrix.solutions/product/falcon-9/
+	And I add cookie name = testCookie value = 99
+    And I delete cookie testCookie
+    And I add cookie name = testCookie1 value = 100
+    And I delete all cookies
 ```
 
 Explanations
 ------------
-BELLATRIX gives you an interface for easier work with cookies using the CookiesService. You need to make sure that you have navigated to the desired web page.
-```csharp
-var cookies = App.CookieService.GetAllCookies();
+BELLATRIX gives you predefined steps for easier work with cookies. You need to make sure that you have navigated to the desired web page.
 ```
-Get all cookies.
-```csharp
-var itemsInCartCookie = App.CookieService.GetCookie("woocommerce_items_in_cart");
+When I delete cookie testCookie
 ```
-Get a specific cookie by name.
-```csharp
-App.CookieService.DeleteAllCookies();
+Deletes a specific cookie by name.
+```
+When I delete all cookies
 ```
 Delete all cookies.
-```csharp
-App.CookieService.DeleteCookie("woocommerce_items_in_cart");
 ```
-Delete a specific cookie by name.
-```csharp
-App.CookieService.AddCookie("woocommerce_items_in_cart", "3");
+When I add cookie name = testCookie1 value = 100
 ```
 Add a new cookie.

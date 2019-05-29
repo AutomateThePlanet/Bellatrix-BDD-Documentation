@@ -86,30 +86,43 @@ In the loadTestingSettings section, it is essential to set the requestsFileLocat
 Reuse Existing BELLATRIX Web Tests
 ------------
 A big problem of most load testing solutions is that your tests get outdated quite fast with each small update of your website. The usual fix is to rewrite all existing tests. To solve this problem, we integrated some of BELLATRIX most powerful features so that each time your web tests are executed, they will update your load tests as well.
-To mark a web test to be reused for load testing you only need to mark it with the **LoadTest** attribute and turn on the web requests recording.
+To mark a web test to be reused for load testing you only need to mark it with the **@loadTest** attribute and turn on the web requests recording.
 ```csharp
-[TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted, true)]
-public class DemandPlanningTests : WebTest
-{
-    [TestMethod]
-    [LoadTest]
-    public void NavigateToDemandPlanning()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+Feature: Navigate to BELLATRIX Online Rocket Shop
+	To purchase a new rocket
+	As a Nuclear Engineer 
+	I want to be able to buy a new rocket.
 
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-        Anchor protonMReadMoreButton = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
-        Anchor addToCartFalcon9 = App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
-        Anchor viewCartButton = App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+Background: 
+Given Add Custom Driver Capabilities
+And I use Chrome browser on Windows
+And I restart the browser every time
+And I open browser
 
-        sortDropDown.SelectByText("Sort by price: low to high");
-        protonMReadMoreButton.Hover();
-        addToCartFalcon9.Focus();
-        addToCartFalcon9.Click();
-        viewCartButton.Click();
-    }
-}
+@loadTest
+Scenario: Successfully By Product 28 with Coupon
+	
+	When I navigate to home page
+	And I filter products by popularity
+	And I add product by ID = 28
+	And I click view cart button
+	And I apply coupon happybirthday
+	And I update product 1 quantity to 2
+	Then I assert total price is equal to 114.00
+    When I click proceed to checkout button
+    And I set first name = In
+    And I set last name = Deepthought
+    And I set company = Automate The Planet Ltd.
+    And I set country = Bulgaria
+    And I set address 1 = bul. Yerusalim 5
+    And I set address 2 = bul. Yerusalim 6
+    And I set city = Sofia
+    And I set state = Sofia-Grad
+    And I set zip = 1000
+    And I set phone = +00359894646464
+    And I set email = info@bellatrix.solutions
+    And I add  order comments = cool product
+    And I check payments button
 ```
 You need to turn-on the load testing module in the **testFrameworkSettings.json** file.
 ```json

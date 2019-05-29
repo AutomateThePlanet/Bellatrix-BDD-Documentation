@@ -12,39 +12,36 @@ anchors:
 Example
 --------
 ```csharp
-using Bellatrix.TestExecutionExtensions.Common.ExecutionTime;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+Feature: CommonServices
+	In order to use the browser
+	As a automation engineer
+	I want BELLATRIX to provide me handy method to do my job
 
-namespace Bellatrix.Web.GettingStarted
-{
-    [TestClass]
-    [ExecutionTimeUnder(2000, TimeUnit.Milliseconds)]
-    [Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
-    public class MeasureTestExecutionTests : WebTest
-    {
-        [TestMethod]
-        public void PromotionsPageOpened_When_PromotionsButtonClicked()
-        {
-            App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+Background: 
+Given I use Firefox browser on Windows
+And I reuse the browser if started
+And I capture HTTP traffic
+And I take a screenshot for failed tests
+And I record a video for failed tests
+And I open browser
 
-            var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("promo");
-
-            promotionsLink.Click();
-        }
-    }
-}
+@executiontimeunder-6-seconds
+Scenario: Browser Service Common Steps
+	When I navigate to URL http://demos.bellatrix.solutions/product/falcon-9/
+	And I refresh the browser
+	When I wait until the browser is ready
+	And I wait for all AJAX requests to finish
+	And I maximize the browser
+	And I navigate to URL http://demos.bellatrix.solutions/
+	And I click browser's back button
+	And I click browser's forward button
+    And I click browser's back button
+	And I wait for partial URL falcon-9
 ```
 
 Explanations
 ------------
 ```csharp
-[TestClass]
-[ExecutionTimeUnder(2000, TimeUnit.Milliseconds)]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
-public class MeasureTestExecutionTests : WebTest
+@executiontimeunder-6-seconds
 ```
-Sometimes it is useful to use your functional tests to measure performance. Or to just make sure that your app is not slow. To do that BELLATRIX libraries offer the **ExecutionTimeUnder** attribute. You specify a timeout and if the test is executed over it the test will fail.
-```csharp
-using Bellatrix.TestExecutionExtensions.Common.ExecutionTime;
-```
-You need to add the NuGet package- **Bellatrix.TestExecutionExtensions.Common**. After that you need to add a using statement to **Bellatrix.TestExecutionExtensions.Common.ExecutionTime**
+Sometimes it is useful to use your functional tests to measure performance. Or to just make sure that your app is not slow. To do that BELLATRIX libraries offer the **@executiontimeunder** attribute. You specify a timeout and if the test is executed over it the test will fail.

@@ -12,93 +12,40 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime, shouldCaptureHttpTraffic: true)]
-public class CaptureHttpTrafficTests : WebTest
-{
-    [TestMethod]
-    public void CaptureTrafficTests()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+```
+Feature: CommonServices
+	In order to use the browser
+	As a automation engineer
+	I want BELLATRIX to provide me handy method to do my job
 
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-        Anchor protonMReadMoreButton = 
-		App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
-        Anchor addToCartFalcon9 = 
-        App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
-        Anchor viewCartButton = 
-		App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+Background: 
+Given I use Firefox browser on Windows
+And I reuse the browser if started
+And I capture HTTP traffic
+And I take a screenshot for failed tests
+And I record a video for failed tests
+And I open browser
 
-        sortDropDown.SelectByText("Sort by price: low to high");
-        protonMReadMoreButton.Hover();
-        addToCartFalcon9.Focus();
-        addToCartFalcon9.Click();
-        viewCartButton.Click();
-
-        App.ProxyService.AssertNoErrorCodes();
-
-        App.ProxyService.AssertNoLargeImagesRequested();
-
-        App.ProxyService.AssertRequestMade("http://demos.bellatrix.solutions/favicon.ico");
-    }
-
-    [TestMethod]
-    public void RedirectRequestsTest()
-    {
-        App.ProxyService.SetUrlToBeRedirectedTo(
-		"http://demos.bellatrix.solutions/favicon.ico", 
-		"https://www.automatetheplanet.com/wp-content/uploads/2016/12/logo.svg");
-
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-        Anchor protonMReadMoreButton = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
-        Anchor addToCartFalcon9 = 
-		App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
-        Anchor viewCartButton = 
-		App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
-
-        sortDropDown.SelectByText("Sort by price: low to high");
-        protonMReadMoreButton.Hover();
-        addToCartFalcon9.Focus();
-        addToCartFalcon9.Click();
-        viewCartButton.Click();
-    }
-
-    [TestMethod]
-    public void BlockRequestsTest()
-    {
-        App.ProxyService.SetUrlToBeBlocked("http://demos.bellatrix.solutions/favicon.ico");
-
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-        Anchor protonMReadMoreButton = 
-		App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
-        Anchor addToCartFalcon9 = 
-		App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
-        Anchor viewCartButton = 
-		App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
-
-        sortDropDown.SelectByText("Sort by price: low to high");
-        protonMReadMoreButton.Hover();
-        addToCartFalcon9.Focus();
-        addToCartFalcon9.Click();
-        viewCartButton.Click();
-
-        App.ProxyService.AssertRequestNotMade("http://demos.bellatrix.solutions/welcome");
-    }
-}
+Scenario: Browser Service Common Steps
+	When I navigate to URL http://demos.bellatrix.solutions/product/falcon-9/
+	And I refresh the browser
+	When I wait until the browser is ready
+	And I wait for all AJAX requests to finish
+	And I maximize the browser
+	And I navigate to URL http://demos.bellatrix.solutions/
+	And I click browser's back button
+	And I click browser's forward button
+    And I click browser's back button
+	And I wait for partial URL falcon-9
 ```
 
 Explanations
 ------------
 Capture HTTP traffic is one of the most requested features for WebDriver. However by design WebDriver does not include such feature. Happily, for you, we added it to BELLATRIX.
-```csharp
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime, shouldCaptureHttpTraffic: true)]
 ```
-By default, the proxy is not used in your tests even if it is enabled. You need to set the shouldCaptureHttpTraffic to true in the **Browser** attribute. After that, each request and response made by the browser is captured, and you have the option to modify it or make assertions against it.
+Given  I capture HTTP traffic
+```
+By default, the proxy is not used in your tests even if it is enabled. You need to call the predefined SpecFlow step to turn it on. After that, each request and response made by the browser is captured, and you have the option to modify it or make assertions against it. Later in your custom steps you can call the bellow methods to access and assert the recorded requests.
 ```csharp
 App.ProxyService.AssertNoErrorCodes();
 ```

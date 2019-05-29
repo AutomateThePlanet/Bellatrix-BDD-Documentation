@@ -12,87 +12,48 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestMethod]
-public void PurchaseRocketWithLogs()
-{
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+```
+Feature: Navigate to BELLATRIX Online Rocket Shop
+	To purchase a new rocket
+	As a Nuclear Engineer 
+	I want to be able to buy a new rocket.
 
-    Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-    Anchor protonMReadMoreButton = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
-    Anchor addToCartFalcon9 = 
-    App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
-    Anchor viewCartButton = 
-    App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+Background: 
+Given Add Custom Driver Capabilities
+And I use Chrome browser on Windows
+And I restart the browser every time
+And I open browser
 
-    sortDropDown.SelectByText("Sort by price: low to high");
-    protonMReadMoreButton.Hover();
-    addToCartFalcon9.Focus();
-    addToCartFalcon9.Click();
-    viewCartButton.Click();
+@loadTest
+Scenario: Successfully By Product 28 with Coupon
+	
+	When I navigate to home page
+	And I filter products by popularity
+	And I add product by ID = 28
+	And I click view cart button
+	And I apply coupon happybirthday
+	And I update product 1 quantity to 2
+	Then I assert total price is equal to 114.00
+    When I click proceed to checkout button
+    And I set first name = In
+    And I set last name = Deepthought
+    And I set company = Automate The Planet Ltd.
+    And I set country = Bulgaria
+    And I set address 1 = bul. Yerusalim 5
+    And I set address 2 = bul. Yerusalim 6
+    And I set city = Sofia
+    And I set state = Sofia-Grad
+    And I set zip = 1000
+    And I set phone = +00359894646464
+    And I set email = info@bellatrix.solutions
+    And I add  order comments = cool product
+    And I check payments button
 
-    TextField couponCodeTextField = App.ElementCreateService.CreateById<TextField>("coupon_code");
-    Button applyCouponButton = App.ElementCreateService.CreateByValueContaining<Button>("Apply coupon");
-    Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
-    Number quantityBox = App.ElementCreateService.CreateByClassContaining<Number>("input-text qty text");
-    Button updateCart = App.ElementCreateService.CreateByValueContaining<Button>("Update cart").ToBeClickable();
-    Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
-    Anchor proceedToCheckout = 
-    App.ElementCreateService.CreateByClassContaining<Anchor>("checkout-button button alt wc-forward");
-
-    couponCodeTextField.SetText("happybirthday");
-    applyCouponButton.Click();
-    messageAlert.ToHasContent().ToBeVisible().WaitToBe();
-    messageAlert.EnsureInnerTextIs("Coupon code applied successfully.");
-    quantityBox.SetNumber(0);
-    quantityBox.SetNumber(2);
-    updateCart.Click();
-    totalSpan.EnsureInnerTextIs("95.00€", 15000);
-    proceedToCheckout.Click();
-
-    Heading billingDetailsHeading = App.ElementCreateService.CreateByInnerTextContaining<Heading>("Billing details");
-    Anchor showLogin = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Click here to login");
-    TextArea orderCommentsTextArea = App.ElementCreateService.CreateById<TextArea>("order_comments");
-    TextField billingFirstName = App.ElementCreateService.CreateById<TextField>("billing_first_name");
-    TextField billingLastName = App.ElementCreateService.CreateById<TextField>("billing_last_name");
-    TextField billingCompany = App.ElementCreateService.CreateById<TextField>("billing_company");
-    Select billingCountry = App.ElementCreateService.CreateById<Select>("billing_country");
-    TextField billingAddress1 = App.ElementCreateService.CreateById<TextField>("billing_address_1");
-    TextField billingAddress2 = App.ElementCreateService.CreateById<TextField>("billing_address_2");
-    TextField billingCity = App.ElementCreateService.CreateById<TextField>("billing_city");
-    Select billingState = App.ElementCreateService.CreateById<Select>("billing_state").ToBeVisible().ToBeClickable();
-    TextField billingZip = App.ElementCreateService.CreateById<TextField>("billing_postcode");
-    Phone billingPhone = App.ElementCreateService.CreateById<Phone>("billing_phone");
-    Email billingEmail = App.ElementCreateService.CreateById<Email>("billing_email");
-    CheckBox createAccountCheckBox = App.ElementCreateService.CreateById<CheckBox>("createaccount");
-    RadioButton checkPaymentsRadioButton = 
-	App.ElementCreateService.CreateByAttributesContaining<RadioButton>("for", "payment_method_cheque");
-
-    billingDetailsHeading.ToBeVisible().WaitToBe();
-    showLogin.EnsureHrefIs("http://demos.bellatrix.solutions/checkout/#");
-    showLogin.EnsureCssClassIs("showlogin");
-    orderCommentsTextArea.ScrollToVisible();
-    orderCommentsTextArea.SetText("Please send the rocket to my door step!");
-    billingFirstName.SetText("In");
-    billingLastName.SetText("Deepthought");
-    billingCompany.SetText("Automate The Planet Ltd.");
-    billingCountry.SelectByText("Bulgaria");
-    billingAddress1.EnsurePlaceholderIs("House number and street name");
-    billingAddress1.SetText("bul. Yerusalim 5");
-    billingAddress2.SetText("bul. Yerusalim 6");
-    billingCity.SetText("Sofia");
-    billingState.SelectByText("Sofia-Grad");
-    billingZip.SetText("1000");
-    billingPhone.SetPhone("+00359894646464");
-    billingEmail.SetEmail("info@bellatrix.solutions");
-    createAccountCheckBox.Check();
-    checkPaymentsRadioButton.Click();
-}
 ```
 
 Explanations
 ------------
-There cases when you need to show your colleagues or managers what tests do you have. Sometimes you may have manual test cases, but their maintenance and up-to-date state are questionable. Also, many times you need additional work to associate the tests with the test cases. Some frameworks give you a way to write human readable tests through the Gherkin language. The main idea is non-technical people to write these tests. However, we believe this approach is doomed. Or it is doable only for simple tests. This is why in BELLATRIX we built a feature that generates the test cases after the tests execution. After each action or assertion, a new entry is logged.
+There are cases when you need to show your colleagues or managers what tests do you have. Sometimes you may have manual test cases, but their maintenance and up-to-date state are questionable. Also, many times you need additional work to associate the tests with the test cases. Some frameworks give you a way to write human readable tests through the Gherkin language. The main idea is non-technical people to write these tests. However, we believe this approach is doomed. Or it is doable only for simple tests. This is why in BELLATRIX we built a feature that generates the test cases after the tests execution. After each action or assertion, a new entry is logged.
 
 After the test is executed the following log is created:
 

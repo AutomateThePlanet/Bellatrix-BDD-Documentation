@@ -12,108 +12,52 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
-public class BrowserServiceTests : WebTest
-{
-    [TestMethod]
-    public void GetCurrentUri()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+Feature: BrowserServices
+	In order to use the browser
+	As a automation engineer
+	I want BELLATRIX to provide me handy method to do my job
 
-        Debug.WriteLine(App.BrowserService.Url);
-    }
+Background: 
+Given I use Firefox browser on Windows
+And I reuse the browser if started
+And I take a screenshot for failed tests
+And I record a video for failed tests
+And I open browser
 
-    [TestMethod]
-    public void ControlBrowser()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-        App.BrowserService.Maximize();
-
-        App.BrowserService.Back();
-
-        App.BrowserService.Forward();
-
-        App.BrowserService.Refresh();
-    }
-
-    [TestMethod]
-    public void GetTabTitle()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-        Assert.AreEqual("BELLATRIX .NET test automation framework", App.BrowserService.Title);
-    }
-
-    [TestMethod]
-    public void PrintCurrentPageHtml()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-        Debug.WriteLine(App.BrowserService.HtmlSource);
-    }
-
-    [TestMethod]
-    [Ignore]
-    public void SwitchToFrame()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-        var frame = App.ElementCreateService.CreateById<Frame>("myFrameId");
-        App.BrowserService.SwitchToFrame(frame);
-
-        var myButton = frame.CreateById<Button>("purchaseBtnId");
-
-        myButton.Click();
-
-        App.BrowserService.SwitchToDefault();
-    }
-}
+Scenario: Browser Service Common Steps
+	When I navigate to URL http://demos.bellatrix.solutions/product/falcon-9/
+	And I refresh the browser
+	When I wait until the browser is ready
+	And I wait for all AJAX requests to finish
+	And I maximize the browser
+	And I navigate to URL http://demos.bellatrix.solutions/
+	And I click browser's back button
+	And I click browser's forward button
+    And I click browser's back button
+	And I wait for partial URL falcon-9
 ```
 
 Explanations
 ------------
-BELLATRIX gives you an interface to most common operations for controlling the started browser through the **BrowserService** class.
-```csharp
-App.BrowserService.WaitUntilReady();
+BELLATRIX gives you predefined SpecFlow steps for most common operations for controlling the started browser.
 ```
-Sometimes, some AJAX async calls are not caught natively by WebDriver. So you can use the BELLATRIX browser service's method. **WaitUntilReady** which waits for these calls automatically to finish. Keep in mind that usually this is not necessary since BELLATRIX has a complex built-in mechanism for handling element waits.
-```csharp
-Debug.WriteLine(App.BrowserService.Url);
+When I wait until the browser is ready
+And I wait for all AJAX requests to finish
 ```
-Get the current tab URL.
-```csharp
-App.BrowserService.Maximize();
+Sometimes, some AJAX async calls are not caught natively by WebDriver. So you can use the BELLATRIX browser service's step. It waits for these calls automatically to finish. Keep in mind that usually this is not necessary since BELLATRIX has a complex built-in mechanism for handling element waits.
+```
+When I maximize the browser
 ```
 Maximizes the browser.
-```csharp
-App.BrowserService.Back();
+```
+When I click browser's back button
 ```
 Simulates clicking the browser's Back button.
-```csharp
-App.BrowserService.Forward();
+```
+When I click browser's forward button
 ```
 Simulates clicking the browser's Forward button.
-```csharp
-App.BrowserService.Refresh();
+```
+When I refresh the browser
 ```
 Simulates clicking the browser's Refresh button.
-```csharp
-Assert.AreEqual("BELLATRIX .NET test automation framework", App.BrowserService.Title);
-```
-Get the current tab Title.
-```csharp
-Debug.WriteLine(App.BrowserService.HtmlSource);
-```
-Get the current page HTML.
-```csharp
-var frame = App.ElementCreateService.CreateById<Frame>("myFrameId");
-App.BrowserService.SwitchToFrame(frame);
-var myButton = frame.CreateById<Button>("purchaseBtnId");
-```
-To work with elements inside a frame, you should switch to it first. Search for the button inside the frame element. Of course, once you switched to frame, you can create the element through ElementCreateService too.
-```csharp
-App.BrowserService.SwitchToDefault();
-```
-To continue searching in the whole page, you need to switch to default again. It is the same process of how you work with WebDriver.

@@ -12,81 +12,52 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestClass]
-[BrowserStack(BrowserType.Chrome,
-    "62",
-    "Windows",
-    "10",
-    BrowserBehavior.ReuseIfStarted,
-    captureNetworkLogs: true,
-    captureVideo: true,
-    consoleLogType: BrowserStackConsoleLogType.Verbose,
-    debug: true,
-    build: "myUniqueBuildName")]
-public class BrowserStackTests : WebTest
-{
-    [TestMethod]
-    public void PromotionsPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+```
+Feature: BrowserStack Integration
+	In order to use the browser in the BrowserStack Cloud
+	As a automation engineer
+	I want BELLATRIX to provide me handy method to do my job
 
-        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+Background: 
+Given I open Chrome browser 68 in BrowserStack
+And I want to run the browser on Windows platform
+And I want to run the browser on 10 OS version
+And I want to use console log type Warnings
+And I want to record a video of the execution
+And I want to capture a network logs of the execution
+And I want to capture a network logs of the execution
+And I want to set build = OrionBeta
+And I resize the browser 1200 px x 800 px
+And I open browser
 
-        promotionsLink.Click();
-    }
-
-    [TestMethod]
-    [BrowserStack(BrowserType.Chrome, "62", "Windows", "10", DesktopWindowSize._1280_1024, BrowserBehavior.ReuseIfStarted)]
-    public void BlogPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-        var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
-
-        blogLink.Click();
-    }
-}
+Scenario: Browser Service Common Steps
+	When I navigate to URL http://demos.bellatrix.solutions/product/falcon-9/
+	And I refresh the browser
+	When I wait until the browser is ready
+	And I wait for all AJAX requests to finish
+	And I maximize the browser
+	And I navigate to URL http://demos.bellatrix.solutions/
+	And I click browser's back button
+	And I click browser's forward button
+    And I click browser's back button
+	And I wait for partial URL falcon-9
 ```
 
 Explanations
 ------------
 ```csharp
-[BrowserStack(BrowserType.Chrome,
-    "62",
-    "Windows",
-    "10",
-    BrowserBehavior.ReuseIfStarted,
-    captureNetworkLogs: true,
-    captureVideo: true,
-    consoleLogType: BrowserStackConsoleLogType.Verbose,
-    debug: true,
-    build: "myUniqueBuildName")]
+Given I open Chrome browser 68 in BrowserStack
+And I want to run the browser on Windows platform
+And I want to run the browser on 10 OS version
+And I want to use console log type Warnings
+And I want to record a video of the execution
+And I want to capture a network logs of the execution
+And I want to capture a network logs of the execution
+And I want to set build = OrionBeta
+And I resize the browser 1200 px x 800 px
+And I open browser
 ```
-To execute BELLATRIX tests in BrowserStack cloud, you should use the BrowserStack attribute instead of Browser. BrowserStack has the same parameters as Browser but adds to additional ones- browser version, platform type, platform version, captureNetworkLogs, consoleLogType, build and debug. The last five are optional and have default values. As with the Browser attribute you can override the class behaviour on Test level.
-```csharp
-[TestMethod]
-[BrowserStack(BrowserType.Chrome, "62", "Windows", "10", DesktopWindowSize._1280_1024, BrowserBehavior.ReuseIfStarted)]
-public void BlogPageOpened_When_PromotionsButtonClicked()
-{
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-    var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
-
-    blogLink.Click();
-}
-```
-As mentioned if you use the BrowserStack attribute on method level it overrides the class settings.
-```csharp
-[BrowserStack(BrowserType.Chrome, "62", "Windows", "10", 1000, 500, BrowserBehavior.ReuseIfStarted)]
-```
-```
-[BrowserStack(BrowserType.Chrome, "62", "Windows", "10", MobileWindowSize._320_568, BrowserBehavior.ReuseIfStarted)]
-```
-```
-[BrowserStack(BrowserType.Chrome, "62", "Windows", "10", TabletWindowSize._600_1024, BrowserBehavior.ReuseIfStarted)]
-```
-As you can see with the BrowserStack attribute we can change the browser window size again.
+To execute BELLATRIX tests in BrowserStack cloud, you should use the BrowserStack predefined steps. You have ones for specifying the browser version, platform type, platform version, captureNetworkLogs, consoleLogType, build and debug. The last five are optional and have default values.
 
 Configuration
 -------------

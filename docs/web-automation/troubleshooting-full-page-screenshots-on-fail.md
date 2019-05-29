@@ -12,46 +12,38 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestClass]
-[ScreenshotOnFail(true)]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
-public class FullPageScreenshotsOnFailTests : WebTest
-{
-    [TestMethod]
-    public void PromotionsPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
-        promotionsLink.Click();
-    }
+```
+Feature: CommonServices
+	In order to use the browser
+	As a automation engineer
+	I want BELLATRIX to provide me handy method to do my job
 
-    [TestMethod]
-    [ScreenshotOnFail(false)]
-    public void BlogPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+Background: 
+Given I use Firefox browser on Windows
+And I reuse the browser if started
+And I take a screenshot for failed tests
+And I open browser
 
-        var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
-
-        blogLink.Click();
-    }
-}
+@executiontimeunder-6-seconds
+Scenario: Browser Service Common Steps
+	When I navigate to URL http://demos.bellatrix.solutions/product/falcon-9/
+	And I refresh the browser
+	When I wait until the browser is ready
+	And I wait for all AJAX requests to finish
+	And I maximize the browser
+	And I navigate to URL http://demos.bellatrix.solutions/
+	And I click browser's back button
+	And I click browser's forward button
+    And I click browser's back button
+	And I wait for partial URL falcon-9
 ```
 
 Explanations
 ------------
-```csharp
-[ScreenshotOnFail(true)]
 ```
-his is the attribute for automatic generation of full-page screenshots by BELLATRIX. The engine checks after each test, its result, if failed, makes the screenshots. We have a unique engine for the screenshots. We do not use vanilla WebDriver. If you use the WebDriver method, it makes a screenshot only of the visible part of the page. If you have to do it manually precisely, you need thousands of lines of code.
-If you place attribute over the class all tests inherit the behaviour. It is possible to put it over each test and this way you override the class behaviour only for this particular test.
-```csharp
-[TestMethod]
-[ScreenshotOnFail(false)]
-public void BlogPageOpened_When_PromotionsButtonClicked()
+Given I take a screenshot for failed tests
 ```
-As mentioned above we can override the screenshot behaviour for a particular test. The global behaviour for all tests in the class is to make screenshots on fail. Only for this particular test, we tell BELLATRIX not to make screenshots.
+This is a predefined BELLATRIX step for automatic generation of full-page screenshots. The engine checks after each test, its result, if failed, makes the screenshots. We have a unique engine for the screenshots. We do not use vanilla WebDriver. If you use the WebDriver method, it makes a screenshot only of the visible part of the page. If you have to do it manually precisely, you need thousands of lines of code.
 
 Configuration
 -------------

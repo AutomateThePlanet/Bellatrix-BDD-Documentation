@@ -12,97 +12,108 @@ anchors:
 Overview
 --------
 
-This is how one BELLATRIX test class looks like.
+This is how one BELLATRIX feature file looks.
 ```csharp
-[TestClass]
-[Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
-public class BellatrixBrowserBehaviourTests : WebTest
-{
-    [TestMethod]
-    public void PromotionsPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+Feature: CommonServices
+	In order to use the browser
+	As a automation engineer
+	I want BELLATRIX to provide me handy method to do my job
 
-        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+Background: 
+Given I use Firefox browser on Windows
+And I reuse the browser if started
+And I capture HTTP traffic
+And I take a screenshot for failed tests
+And I record a video for failed tests
+And I open browser
 
-        promotionsLink.Click();
-    }
-
-    [TestMethod]
-    [Browser(BrowserType.Chrome, BrowserBehavior.RestartOnFail)]
-    public void BlogPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-        var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
-
-        blogLink.Click();
-    }
-}
+Scenario: Browser Service Common Steps
+	When I navigate to URL http://demos.bellatrix.solutions/product/falcon-9/
+	And I refresh the browser
+	When I wait until the browser is ready
+	And I wait for all AJAX requests to finish
+	And I maximize the browser
+	And I navigate to URL http://demos.bellatrix.solutions/
+	And I click browser's back button
+	And I click browser's forward button
+    And I click browser's back button
+	And I wait for partial URL falcon-9
 ```
 
 Explanations
 ------------
-```csharp
-[TestClass]
 ```
-This is the main attribute that you need to mark each class that contains MSTest tests.
-```csharp
-[Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
+Background:
 ```
-This is the attribute for automatic start/control of WebDriver browsers by BELLATRIX. If you have to do it manually properly, you will need thousands of lines of code. 
-**BrowserType** controls which browser is used. Available options are:
+This marks the beginning of a special SpecFlow section which will be executed before each scenario.
+```
+Given I use Firefox browser on Windows
+And I reuse the browser if started
+```
+These are predefined SpecFlow steps for automatic start/control of WebDriver browsers by BELLATRIX. If you have to do it manually properly, you will need thousands of lines of code. 
+Available options are:
 - Chrome
+- ChromeHeadless
 - Firefox
-- Edge
+- FirefoxHeadless
 - InternetExplorer
+- Edge
 - Opera
-- Chrome in headless mode
-- Firefox in headless mode.
+- Safari
+
+Available OS options are:
+- Windows
+- OSX
 
 **Note**: *Headless mode = executed in the browser but the browser's UI is not rendered, in theory, should be faster. In practice the time gain is little.*
 
-**BrowserBehavior** enum controls when the browser is started and stopped. This can drastically increase or decrease the tests execution time, depending on your needs. However you need to be careful because in case of tests failures the browser may need to be restarted.
+Though the second step you can control the browser behavior whether it is reused or restarted. This can drastically increase or decrease the tests execution time, depending on your needs. However you need to be careful because in case of tests failures the browser may need to be restarted.
 Available options:
-- **RestartEveryTime**- for each test a separate WebDriver instance is created and the previous browser is closed. The new browser comes with new cookies and cache.
-- **RestartOnFail**- the browser is only restarted if the previous test failed. Alternatively, if the previous test's browser was different.
-- **ReuseIfStarted**- the browser is only restarted if the previous test's browser was different. In all other cases, the browser is reused if possible.
+```
+Given I restart the browser every time
+```
+For each scenario a separate WebDriver instance is created and the previous browser is closed. The new browser comes with new cookies and cache.
+```
+I restart the browser on test fail
+```
+The browser is only restarted if the previous scenario failed. Alternatively, if the previous test's browser was different.
+```
+I reuse the browser if started
+```
+The browser is only restarted if the previous scenario's browser was different. In all other cases, the browser is reused if possible.
 
 **Note**: *However, use this option with caution since in some rare cases if you have not properly setup your tests you may need to restart the browser if the test fails otherwise all other tests may fail too.*
 
-```csharp
-public class BellatrixBrowserBehaviourTests : WebTest
 ```
-All web BELLATRIX test classes should inherit from the WebTest base class. This way you can use all built-in BELLATRIX tools and functionalities.
-```csharp
-[Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
-public class BellatrixBrowserBehaviourTests : WebTest
+I resize the browser 600 px x 1200 px
 ```
-If you place attribute over the class all tests inherit the behaviour. It is possible to place it over each test and this way it overrides the class behaviour only for this particular test.
+Resizes the browser.
+
 ```csharp
-[TestMethod]
-public void PromotionsPageOpened_When_PromotionsButtonClicked()
-```
-All MSTest tests should be marked with the TestMethod attribute.
-```csharp
-App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-```
-There is more about the App class in the next sections.However, it is the primary point where you access the BELLATRIX services. It comes from the WebTest class as a property.Here we use the BELLATRIX navigation service to navigate to the demo page.
-```csharp
-var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
-```
-Use the element creation service to create an instance of the anchor. There are much more details about this process in the next sections.
-```csharp
-[TestMethod]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartOnFail)]
-public void BlogPageOpened_When_PromotionsButtonClicked()
+[Binding]
+public class CustomWebSteps : WebSteps
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    private HomePage _homePage;
+    private CartPage _cartPage;
+    private CheckoutPage _checkoutPage;
 
-    var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
+    public PageObjectsSteps()
+    {
+    }
 
-    blogLink.Click();
+    [When(@"I navigate to home page")]
+    public void WhenINavigateHomePage()
+    {
+        _homePage = App.GoTo<HomePage>();
+    }
+
+    [When(@"I filter products by popularity")]
+    public void WhenIFilterProductsByPopularity()
+    {
+        _homePage.FilterProducts(ProductFilter.Popularity);
+    }
 }
 ```
-As mentioned above you can override the browser behaviour for a particular test. The global behaviour for all tests in the class is to reuse an instance of Edge browser. Only for this particular test, BELLATRIX opens Chrome and restarts it only on fail.
+To define your SpecFlow steps, create a new class file. It needs to inherit **WebSteps** which gives you access to all BELLATRIX services.
+
 
