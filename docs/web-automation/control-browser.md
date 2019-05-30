@@ -50,7 +50,7 @@ This marks the beginning of a special SpecFlow section which will be executed be
 Given I use Firefox browser on Windows
 And I reuse the browser if started
 ```
-These are predefined SpecFlow steps for automatic start/control of WebDriver browsers by BELLATRIX. If you have to do it manually properly, you will need thousands of lines of code. 
+These are predefined SpecFlow steps for automatic start/control of WebDriver browsers by BELLATRIX. If you have to do it manually properly, you will need thousands of lines of code.
 Available options are:
 - Chrome
 - ChromeHeadless
@@ -115,5 +115,3 @@ public class CustomWebSteps : WebSteps
 }
 ```
 To define your SpecFlow steps, create a new class file. It needs to inherit **WebSteps** which gives you access to all BELLATRIX services.
-
-

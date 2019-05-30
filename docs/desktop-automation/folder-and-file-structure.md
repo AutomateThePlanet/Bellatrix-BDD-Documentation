@@ -2,7 +2,7 @@
 layout: default
 title:  "Folder and File Structure"
 excerpt: "Learn what each BELLATRIX project templates includes."
-date:   2018-02-20 06:50:17 +0200
+date:   2019-05-30 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/folder-and-file-structure/
 anchors:
@@ -20,19 +20,25 @@ Find detailed information about what each empty project contains or should conta
 NuGet Dependencies
 ------------------
 ```
-<PackageReference Include="Bellatrix.Desktop.MSTest" Version="1.1.0.15" />
+<PackageReference Include="Bellatrix.SpecFlow.Desktop.MSTest" Version="1.5.0.5" />
+<PackageReference Include="Bellatrix.SpecFlow.Desktop" Version="1.5.0.5" />
+<PackageReference Include="Bellatrix.SpecFlow.Desktop.TestExecutionExtensions" Version="1.5.0.5" />
+<PackageReference Include="Bellatrix.SpecFlow.TestExecutionExtensions.Video" Version="1.5.0.5" />
+<PackageReference Include="Bellatrix.SpecFlow.TestExecutionExtensions.Screenshots" Version="1.5.0.5" />
 
-<PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
-<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.2" />
-<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
-<PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
-<PackageReference Include="MSTest.TestAdapter" Version="1.3.0" />
-<PackageReference Include="MSTest.TestFramework" Version="1.3.0" />
-<PackageReference Include="System.Security.Permissions" Version="4.4.1" />
-<PackageReference Include="Unity" Version="5.8.6" />
+<PackageReference Include="SpecFlow" Version="3.0.213" />
+<PackageReference Include="SpecFlow.MsTest" Version="3.0.213" />
+<PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.0.213" />
+<PackageReference Include="Bellatrix.Desktop.DemoApps" Version="1.3.1" />
+<PackageReference Include="Bellatrix.FFmpeg.Recorder" Version="1.3.0" />
+<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.1" />
+<PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
+<PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
+<PackageReference Include="System.Security.Permissions" Version="4.5.0" />
+<PackageReference Include="Unity" Version="5.10.3" />
 <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" />
 ```
-As you can see the most important package that you need is Bellatrix.Desktop.MSTest, it depends on all below packages. This is the bare minimum. 
+As you can see the most important package that you need is Bellatrix.SpecFlow.Desktop.MSTest, it depends on all below packages. This is the bare minimum. 
 **Microsoft.NET.Test.Sdk**, **MSTest.TestAdapter**,** MSTest.TestFramework** are prerequisites so that you can execute MSTest framework tests.
 Also, we use Unity inversion of control container inside BELLATRIX for many things.  You will not be able to use it directly, but there are a couple of ways that you will use it in your code for some more complex scenarios.
 Lastly, we install StyleCop.Analyzers, we use it to enforce coding standards in the tests code.

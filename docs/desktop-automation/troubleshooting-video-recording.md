@@ -2,7 +2,7 @@
 layout: default
 title:  "Troubleshooting- Video Recording"
 excerpt: "Learn how to use BELLATRIX cross-platform video recording."
-date:   2018-06-22 06:50:17 +0200
+date:   2018-05-30 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/troubleshooting-video-recording/
 anchors:
@@ -12,56 +12,50 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestClass]
-[VideoRecording(VideoRecordingMode.OnlyFail)]
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
-public class VideoRecordingTests : DesktopTest
-{
-[TestMethod]
-public void MessageChanged_When_ButtonHovered_Wpf()
-{
-    var button = App.ElementCreateService.CreateByName<Button>("E Button");
+```
+Feature: Navigate to BELLATRIX Online Rocket Shop
+	To purchase a new rocket
+	As a Nuclear Engineer 
+	I want to be able to buy a new rocket.
 
-    button.Hover();
+Background:
+Given I use app with path AssemblyFolder\Demos\Wpf\WPFSampleApp.exe
+And I restart the app on test fail
+And I take a screenshot for failed tests
+And I record a video for failed tests
+And I open app
 
-    var label = App.ElementCreateService.CreateByName<Button>("ebuttonHovered");
-    Assert.AreEqual("ebuttonHovered", label.InnerText);
-}
-
-[TestMethod]
-[App(Constants.WpfAppPath, AppBehavior.RestartOnFail)]
-[VideoRecording(VideoRecordingMode.DoNotRecord)]
-public void MessageChanged_When_ButtonClicked_Wpf()
-{
-    var button = App.ElementCreateService.CreateByName<Button>("E Button");
-
-    button.Click();
-
-    var label = App.ElementCreateService.CreateByName<Button>("ebuttonClicked");
-    Assert.AreEqual("ebuttonClicked", label.InnerText);
-}
-}
+Scenario: Successfully Transfer Item
+	When I transfer item FalconRocket user name bellatrix password secret
+	Then I assert that keep me logged is checked
+    And I assert that permanent trasnfer is checked
+    And I assert that Item2 right item is selected
+    And I assert that bellatrix user name is set
 ```
 
 Explanations
 ------------
-```csharp
-[VideoRecording(VideoRecordingMode.OnlyFail)]
 ```
-This is the attribute for cross-platform video recording by BELLATRIX. The engine checks after each test, its result, depending on the specified video saves the video.
+Given I record a video for failed tests
+```
+This is a predefined BELLATRIX SpecFlow step for cross-platform video recording. The engine checks after each test, its result, depending on the specified video saves the video.
 All video recording modes:
-- **Always** - records and save video for all tests.
-- **DoNotRecord** - wont' record any videos.
-- **Ignore** - ignores the tests.
-- **OnlyPass** - saves the videos only for pass tests.
-- **OnlyFail** - saves the videos only for failed tests.
-If you place attribute over the class all tests inherit the behaviour. It is possible to put it over each test and this way you override the class behaviour only for this particular test.
-```csharp
-[TestMethod]
-[VideoRecording(VideoRecordingMode.DoNotRecord)]
+
 ```
-As mentioned above we can override the video behaviour for a particular test. The global behaviour for all tests in the class is to save the videos only for failed tests. Only for this particular test, we tell BELLATRIX not to make a video.
+Given I record a video for all tests
+```
+Records and save video for all tests.
+```
+Given I record a video for passed tests
+```
+Saves the videos only for pass tests.
+```
+Given I record a video for failed tests
+```
+Saves the videos only for failed tests.
+```
+Given I record a video for failed tests
+```
 
 Configuration
 -------------

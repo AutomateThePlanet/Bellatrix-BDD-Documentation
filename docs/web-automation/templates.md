@@ -28,20 +28,16 @@ Before you can create a new project, you need to install the BELLATRIX template 
 
 **All available templates:**
 
-- Bellatrix.API.GettingStarted
-- Bellatrix.API.MSTest.Tests
-- Bellatrix.API.NUnit.Tests
-- Bellatrix.Desktop.GettingStarted
-- Bellatrix.Desktop.MSTest.Tests
-- Bellatrix.Desktop.NUnit.Tests
-- Bellatrix.Web.GettingStarted
-- Bellatrix.Web.MSTest.Tests
-- Bellatrix.Web.NUnit.Tests
+- Bellatrix.SpecFlow.Desktop.MSTest.Tests
+- Bellatrix.SpecFlow.Web.MSTest.Tests
+- Bellatrix.SpecFlow.Android.MSTest.Tests
+- Bellatrix.SpecFlow.IOS.MSTest.Tests
+- Bellatrix.SpecFlow.API.MSTest.Tests
 
 **Install Template**
 
 ```
-dotnet new -i Bellatrix.Web.GettingStarted
+dotnet new -i Bellatrix.SpecFlow.Web.MSTest.Tests
 ```
 
 **Create Project from Template**
@@ -50,7 +46,7 @@ dotnet new -i Bellatrix.Web.GettingStarted
 3. Type the bellow command for the desired template
 
 ```
-dotnet new Bellatrix.Web.GettingStarted
+dotnet new Bellatrix.SpecFlow.Web.MSTest.Tests
 ```
 
 ![Create Getting Started CLI](images/create-getting-started-console.png)

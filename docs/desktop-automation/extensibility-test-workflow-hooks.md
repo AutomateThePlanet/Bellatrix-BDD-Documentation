@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Test Workflow Hooks"
 excerpt: "Learn how to extend the BELLATRIX test workflow using hooks."
-date:   2018-06-23 06:50:17 +0200
+date:   2019-05-30 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/extensibility-test-workflow-hooks/
 anchors:
@@ -12,47 +12,107 @@ anchors:
 Example
 -------
 ```csharp
+[Binding]
 [TestClass]
-[VideoRecording(VideoRecordingMode.OnlyFail)]
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
-public class TestWorkflowHooksTests : DesktopTest
+public class TestsInitialize : DesktopHooks
 {
-    private static Button _mainButton;
-    private static Label _resultsLabel;
-    
-    public override void TestsArrange()
+    [BeforeTestRun(Order = 1)]
+    public static void PreBeforeTestRun()
     {
-        _mainButton = App.ElementCreateService.CreateByName<Button>("E Button");
-        _resultsLabel = App.ElementCreateService.CreateByName<Label>("ebuttonHovered");
+        App.UseUnityContainer();
+        App.UseMsTestSettings();
+        App.UseLogger();
+        App.UseAppBehavior();
+        App.UseLogExecutionBehavior();
+        App.UseControlLocalOverridesCleanBehavior();
+        App.UseFFmpegVideoRecorder();
+        App.UseScreenshotsOnFail();
+        App.UseElementsBddLogging();
+        App.UseEnsureExtensionsBddLogging();
+        App.UseLayoutAssertionExtensionsBddLogging();
+        App.StartWinAppDriver();
+        App.AssemblyInitialize();
+
+        InitializeAssemblyTestExecutionBehaviorObservers(TestExecutionProvider);
+        InitializeTestExecutionBehaviorObservers(TestExecutionProvider);
+        TestExecutionProvider.PreAssemblyInitialize();
     }
 
-    public override void TestsAct()
+    [BeforeTestRun(Order = 100)]
+    public static void PostBeforeTestRun()
     {
-        _mainButton.Hover();
+        TestExecutionProvider.PostAssemblyInitialize();
     }
 
-    public override void TestInit()
+    [AfterTestRun(Order = 1)]
+    public static void PreAfterTestRun()
     {
-        // Executes a logic before each test in the test class.
+        TestExecutionProvider.PreAssemblyCleanup();
+        App.AssemblyCleanup();
+        App.Dispose();
+        App.StopWinAppDriver();
     }
 
-    public override void TestCleanup()
+    [AfterTestRun(Order = 100)]
+    public static void PostAfterTestRun()
     {
-        // Executes a logic after each test in the test class.
+        TestExecutionProvider.PreAssemblyCleanup();
     }
 
-    [TestMethod]
-    public void MessageChanged_When_ButtonHovered_Wpf()
+    [BeforeFeature(Order = 1)]
+    public static void PreBeforeFeatureArrange(FeatureContext featureContext)
     {
-        Assert.AreEqual("ebuttonHovered", _resultsLabel.InnerText);
+        try
+        {
+            TestExecutionProvider.PreBeforeFeatureArrange(featureContext.FeatureInfo.Title, featureContext.FeatureInfo.Tags.ToList());
+        }
+        catch (Exception ex)
+        {
+            TestExecutionProvider.BeforeFeatureFailed(ex);
+            throw;
+        }
     }
 
-    [TestMethod]
-    [App(Constants.WpfAppPath, AppBehavior.RestartOnFail)]
-    [VideoRecording(VideoRecordingMode.DoNotRecord)]
-    public void ResultsLabelVisible_When_ButtonClicked_Wpf()
+    [BeforeFeature(Order = 100)]
+    public static void PostBeforeFeatureArrange(FeatureContext featureContext)
     {
-        _resultsLabel.EnsureIsVisible();
+        try
+        {
+            TestExecutionProvider.PostBeforeFeatureArrange(featureContext.FeatureInfo.Title, featureContext.FeatureInfo.Tags.ToList());
+        }
+        catch (Exception ex)
+        {
+            TestExecutionProvider.BeforeFeatureFailed(ex);
+            throw;
+        }
+    }
+
+    [BeforeFeature(Order = 101)]
+    public static void PreBeforeFeatureAct(FeatureContext featureContext)
+    {
+        try
+        {
+            TestExecutionProvider.PreBeforeFeatureAct(featureContext.FeatureInfo.Title, featureContext.FeatureInfo.Tags.ToList());
+        }
+        catch (Exception ex)
+        {
+            TestExecutionProvider.BeforeFeatureFailed(ex);
+            throw;
+        }
+    }
+
+    [BeforeFeature(Order = 200)]
+    public static void PostBeforeFeatureAct(FeatureContext featureContext)
+    {
+        try
+        {
+            TestExecutionProvider.PostBeforeFeatureAct(featureContext.FeatureInfo.Title, featureContext.FeatureInfo.Tags.ToList());
+        }
+        catch (Exception ex)
+        {
+            TestExecutionProvider.BeforeFeatureFailed(ex);
+            throw;
+        }
     }
 }
 ```
@@ -65,56 +125,35 @@ One of the greatest features of BELLATRIX is test workflow hooks. It gives you t
 
 The following methods are called once for test class:
 
-1. All plug-ins **PreAssemblyInitialize** logic executes
-2. Current Project **AssemblyInitialize** executes
-3. All plug-ins **PostAssemblyInitialize** logic executes
-4. All plug-ins **PreTestsArrange** logic executes.
-5. Current class **TestsArrange** method executes. By default it is empty, but you can override it in each class and execute your logic. This is the place where you can set up data for your tests, call internal API services, SQL scripts and so on.
-6. All plug-ins **PostTestsArrange** logic executes.
-7. All plug-ins **PreTestsAct** logic executes.
-8. Current class **TestsAct** method executes. By default it is empty, but you can override it in each class and execute your logic. This is the place where you can execute the primary actions for your test case. This is useful if you want later include only assertions in the tests.
-9. All plug-ins **PostTestsAct** logic executes.
+1. All plug-ins **PreBeforeTestRun** logic executes (PreAssemblyInitialize)
+2. Current Project **BeforeTestRun** executes (Order > 1 and < 100)
+3. All plug-ins **PostBeforeTestRun** logic executes (PostAssemblyInitialize)
+4. All plug-ins **PreBeforeFeatureArrange** logic executes.
+5. Current Project **BeforeFeatureArrange** method executes. (Order > 1 and < 100)
+6. All plug-ins **PostBeforeFeatureArrange** logic executes.
+7. All plug-ins **PreBeforeFeatureAct** logic executes.
+8. Current class **BeforeFeatureAct** method executes. (Order > 101 and < 200)
+9. All plug-ins **PostBeforeFeatureAct** logic executes.
+10. 10.1. In case there is an exception thrown in the BeforeFeature phase **BeforeFeatureFailed** logic of all plug-ins is run.
 
-The following methods are called once for each test in the class:
+The following methods are called once for each scenario in the feature file:
 
-10. All plug-ins **PreTestInit** logic executes.
-11. Current class **TestInit** method executes. By default it is empty, but you can override it in each class and execute your logic. You can add some logic that is executed for each test instead of copy pasting it for each test. For example- navigating to a specific Android activity.
-11.1. In case there is an exception thrown in the TestInit phase **TestInitFailed** logic of all plug-ins is run.
-12. All plug-ins **PostTestInit** logic executes.
-13. All plug-ins **PreTestCleanup** logic executes.
-14. Current class **TestCleanup** method executes. By default it is empty, but you can override it in each class and execute your logic.
+11. All plug-ins **PreBeforeScenario** logic executes.
+12. Current class **BeforeScenario** method executes. By default it is empty, but you can override it in each class and execute your logic. You can add some logic that is executed for each test instead of copy pasting it for each test. For example- navigating to a specific Android activity.
+13. All plug-ins **PostBeforeScenario** logic executes.
+14. All plug-ins **PreAfterScenario** logic executes.
+15. Current class **AfterScenario** method executes. By default it is empty, but you can override it in each class and execute your logic.
 You can add some logic that is executed after each test instead of copy pasting it. For example- deleting some entity from DB.
-15. All plug-ins **PostTestCleanup** logic executes.
-16. All plug-ins **PostAssemblyCleanup** logic executes
-17. Current Project **AssemblyCleanup** executes
-18. All plug-ins **PostAssemblyCleanup** logic executes
 
-**Note**: ***TestsArrange** and **TestsAct** are similar to MSTest **TestClassInitialize** and **OneTimeSetup** in NUnit. We decided to split them into two methods to make the code more readable and two allow customization of the workflow.*
+16. All plug-ins **PreAfterTestRun** logic executes. (PreAssemblyCleanup)
+17. Current Project **AfterTestRun** executes (Order > 1 and < 100)
+18. All plug-ins **PostAfterTestRun** logic executes (PostAssemblyCleanup)
 
 ```csharp
-public override void TestsArrange()
+[AfterTestRun(Order = 20)]
+public static void AfterTestRun()
 {
-    _mainButton = App.ElementCreateService.CreateByName<Button>("E Button");
-    _resultsLabel = App.ElementCreateService.CreateByName<Label>("ebuttonHovered");
-}
-
-public override void TestsAct()
-{
-    _mainButton.Hover();
+    // call custom logic
 }
 ```
-This is one of the ways you can use **TestsArrange** and **TestsAct**. You can find create all elements in the **TestsArrange** and create all necessary data for the tests. Then in the **TestsAct** execute the actual tests logic but without asserting anything. Then in each separate test execute single assert or ensure method. Following the best testing practices- having a single assertion in a test. If you execute multiple assertions and if one of them fails, the next ones are not executed which may lead to missing some major clue about a bug in your product. Anyhow, BELLATRIX allows you to write your tests the standard way of executing the primary logic in the tests or reuse some of it through the usage of **TestInit** and **TestCleanup** methods.
-```csharp
-public override void TestInit()
-{
-    // ...
-}
-```
-Executes a logic before each test in the test class.
-```csharp
-public override void TestCleanup()
-{
-    // ...
-}
-```
-Executes a logic after each test in the test class.
+This is how you can add your own after test run logic. It is important to use the **Order** property.

@@ -2,7 +2,7 @@
 layout: default
 title:  "Behaviour Driven Development BDD Logging"
 excerpt: "Learn the BELLATRIX Behaviour Driven Development BDD Logging works and how to use it."
-date:   2018-06-2s 06:50:17 +0200
+date:   2019-05-30 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/bdd-logging/
 anchors:
@@ -12,36 +12,25 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestMethod]
-public void CommonActionsWithDesktopControls_Wpf()
-{
-    var calendar = App.ElementCreateService.CreateByAutomationId<Calendar>("calendar");
+```
+Feature: Navigate to BELLATRIX Online Rocket Shop
+	To purchase a new rocket
+	As a Nuclear Engineer 
+	I want to be able to buy a new rocket.
 
-    calendar.EnsureIsNotDisabled();
+Background:
+Given I use app with path AssemblyFolder\Demos\Wpf\WPFSampleApp.exe
+And I restart the app on test fail
+And I take a screenshot for failed tests
+And I record a video for failed tests
+And I open app
 
-    var checkBox = App.ElementCreateService.CreateByName<CheckBox>("BellaCheckBox");
-
-    checkBox.Check();
-
-    checkBox.EnsureIsChecked();
-
-    var comboBox = App.ElementCreateService.CreateByAutomationId<ComboBox>("select");
-
-    comboBox.SelectByText("Item2");
-
-    Assert.AreEqual("Item2", comboBox.InnerText);
-
-    var label = App.ElementCreateService.CreateByName<Label>("Result Label");
-
-    label.EnsureIsVisible();
-
-    var radioButton = App.ElementCreateService.CreateByName<RadioButton>("RadioButton");
-
-    radioButton.Click();
-
-    radioButton.EnsureIsChecked(timeout: 30, sleepInterval: 2);
-}
+Scenario: Successfully Transfer Item
+	When I transfer item FalconRocket user name bellatrix password secret
+	Then I assert that keep me logged is checked
+    And I assert that permanent trasnfer is checked
+    And I assert that Item2 right item is selected
+    And I assert that bellatrix user name is set
 ```
 
 Explanations
