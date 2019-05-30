@@ -12,66 +12,102 @@ anchors:
 Example
 -------
 ```csharp
+[Binding]
 [TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
-public class TestWorkflowHooksTests : WebTest
+public class TestsInitialize : WebHooks
 {
-    private static Select _sortDropDown;
-    private static Anchor _protonRocketAnchor;
-
-    public override void TestsArrange()
+    [BeforeTestRun(Order = 1)]
+    public static void PreBeforeTestRun()
     {
-        _sortDropDown = 
-		App.ElementCreateService.CreateByXpath<Select>("//*[@id='main']/div[1]/form/select");
-        _protonRocketAnchor = 
-		App.ElementCreateService.CreateByXpath<Anchor>("//*[@id='main']/div[2]/ul/li[1]/a[1]");
+        App.UseUnityContainer();
+        App.UseMsTestSettings();
+        App.UseLogger();
+        App.UseBrowserBehavior();
+        App.UseLogExecutionBehavior();
+        App.UseControlLocalOverridesCleanBehavior();
+        App.UseFFmpegVideoRecorder();
+        App.UseFullPageScreenshotsOnFail();
+        App.AssemblyInitialize();
+
+        InitializeAssemblyTestExecutionBehaviorObservers(TestExecutionProvider);
+        InitializeTestExecutionBehaviorObservers(TestExecutionProvider);
+        TestExecutionProvider.PreAssemblyInitialize();
     }
 
-    public override void TestsAct()
+    [BeforeTestRun(Order = 100)]
+    public static void PostBeforeTestRun()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-        _sortDropDown.SelectByText("Sort by price: low to high");
+        TestExecutionProvider.PostAssemblyInitialize();
     }
 
-    public override void TestInit()
+    [AfterTestRun(Order = 1)]
+    public static void PreAfterTestRun()
     {
-        // Executes a logic before each test in the test class.
+        TestExecutionProvider.PreAssemblyCleanup();
+        App.AssemblyCleanup();
+        App.Dispose();
     }
 
-    public override void TestCleanup()
+    [AfterTestRun(Order = 100)]
+    public static void PostAfterTestRun()
     {
-        // Executes a logic after each test in the test class.
+        TestExecutionProvider.PreAssemblyCleanup();
     }
 
-    [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor()
+    [BeforeFeature(Order = 1)]
+    public static void PreBeforeFeatureArrange(FeatureContext featureContext)
     {
-        _sortDropDown.AssertAboveOf(_protonRocketAnchor);
+        try
+        {
+            TestExecutionProvider.PreBeforeFeatureArrange(featureContext.FeatureInfo.Title, featureContext.FeatureInfo.Tags.ToList());
+        }
+        catch (Exception ex)
+        {
+            TestExecutionProvider.BeforeScenarioFailed(ex);
+            throw;
+        }
     }
 
-    [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor_41px()
+    [BeforeFeature(Order = 100)]
+    public static void PostBeforeFeatureArrange(FeatureContext featureContext)
     {
-        _sortDropDown.AssertAboveOf(_protonRocketAnchor, 41);
+        try
+        {
+            TestExecutionProvider.PostBeforeFeatureArrange(featureContext.FeatureInfo.Title, featureContext.FeatureInfo.Tags.ToList());
+        }
+        catch (Exception ex)
+        {
+            TestExecutionProvider.BeforeScenarioFailed(ex);
+            throw;
+        }
     }
 
-    [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor_GreaterThan40px()
+    [BeforeFeature(Order = 101)]
+    public static void PreBeforeFeatureAct(FeatureContext featureContext)
     {
-        _sortDropDown.AssertAboveOfGreaterThan(_protonRocketAnchor, 40);
+        try
+        {
+            TestExecutionProvider.PreBeforeFeatureAct(featureContext.FeatureInfo.Title, featureContext.FeatureInfo.Tags.ToList());
+        }
+        catch (Exception ex)
+        {
+            TestExecutionProvider.BeforeScenarioFailed(ex);
+            throw;
+        }
     }
 
-    [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor_GreaterThanOrEqual41px()
+    [BeforeFeature(Order = 200)]
+    public static void PostBeforeFeatureAct(FeatureContext featureContext)
     {
-        _sortDropDown.AssertAboveOfGreaterThanOrEqual(_protonRocketAnchor, 41);
-    }
-
-    [TestMethod]
-    public void SortDropDownIsNearTopOfProtonRocketAnchor_GreaterThan40px()
-    {
-        _sortDropDown.AssertNearTopOfGreaterThan(_protonRocketAnchor, 40);
+        try
+        {
+            TestExecutionProvider.PostBeforeFeatureAct(featureContext.FeatureInfo.Title, featureContext.FeatureInfo.Tags.ToList());
+        }
+        catch (Exception ex)
+        {
+            TestExecutionProvider.BeforeScenarioFailed(ex);
+            throw;
+        }
     }
 }
 ```
@@ -84,9 +120,9 @@ One of the greatest features of BELLATRIX is test workflow hooks. It gives you t
 
 The following methods are called once for test class:
 
-1. All plug-ins **PreAssemblyInitialize** logic executes
-2. Current Project **AssemblyInitialize** executes
-3. All plug-ins **PostAssemblyInitialize** logic executes
+1. All plug-ins **PreBeforeTestRun** logic executes (PreAssemblyInitialize)
+2. Current Project **BeforeTestRun** executes (Order > 1 and < 100)
+3. All plug-ins **PostBeforeTestRun** logic executes (PostAssemblyInitialize)
 4. All plug-ins **PreTestsArrange** logic executes.
 5. Current class **TestsArrange** method executes. By default it is empty, but you can override it in each class and execute your logic. This is the place where you can set up data for your tests, call internal API services, SQL scripts and so on.
 6. All plug-ins **PostTestsArrange** logic executes.
@@ -103,12 +139,9 @@ The following methods are called once for each test in the class:
 13. All plug-ins **PreTestCleanup** logic executes.
 14. Current class **TestCleanup** method executes. By default it is empty, but you can override it in each class and execute your logic.
 You can add some logic that is executed after each test instead of copy pasting it. For example- deleting some entity from DB.
-15. All plug-ins **PostTestCleanup** logic executes.
-16. All plug-ins **PostAssemblyCleanup** logic executes
-17. Current Project **AssemblyCleanup** executes
-18. All plug-ins **PostAssemblyCleanup** logic executes
-
-**Note**: ***TestsArrange** and **TestsAct** are similar to MSTest **TestClassInitialize** and **OneTimeSetup** in NUnit. We decided to split them into two methods to make the code more readable and two allow customization of the workflow.*
+15. All plug-ins **PreAfterTestRun** logic executes. (PreAssemblyCleanup)
+17. Current Project **AfterTestRun** executes (Order > 1 and < 100)
+18. All plug-ins **PostAfterTestRun** logic executes (PostAssemblyCleanup)
 
 ```csharp
 public override void TestsArrange()
