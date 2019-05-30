@@ -50,4 +50,3 @@ dotnet new Bellatrix.SpecFlow.Web.MSTest.Tests
 ```
 
 ![Create Getting Started CLI](images/create-getting-started-console.png)
-

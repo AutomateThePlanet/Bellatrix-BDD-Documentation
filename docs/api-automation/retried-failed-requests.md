@@ -2,7 +2,7 @@
 layout: default
 title:  "Retry Failed Requests"
 excerpt: "Learn how to retry failed requests with BELLATRIX API attributes."
-date:   2018-06-23 06:50:17 +0200
+date:   2019-05-30 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/retry-failed-requests/
 anchors:
@@ -12,45 +12,23 @@ anchors:
 Example
 -------
 ```csharp
-[TestMethod]
-public void AssertJsonSchema()
-{
-    var request = new RestRequest("api/Albums/10");
+Feature: Make requests to Music Shop
+	To get music information
+	As a Music Developer 
+	I want to be able to get information about the music pieces
 
-    var response = App.GetApiClientService().Get<Albums>(request);
+Background:
+Given I set max retry attempts to 3
+And I pause between failures 2 seconds
 
-    // http://json-schema.org/examples.html
-    var expectedSchema = @"{
-                            ""title"": ""Albums"",
-                            ""type"": ""object"",
-                            ""properties"": {
-                                        ""albumId"": {
-                                            ""type"": ""integer""
-                                        },
-                                ""title"": {
-                                            ""type"": ""string""
-                                },
-                                ""artistId"": {
-                                            ""type"": ""integer""
-                                },
-                          ""artist"": {
-                                            ""type"": ""object""
-                                },
-                         ""tracks"": {
-                                            ""type"": ""object""
-                                }
-                                    },
-                            ""required"": [""albumId""]
-                          }";
-
-    response.AssertSchema(expectedSchema);
-}
-}
+Scenario: Successfully Get Album By ID
+	When I get album by ID = 10
+	Then I assert album ID = 10
 ```
 
 Explanations
 ------------
 ```csharp
-response.AssertSchema(expectedSchema);
+Given I set max retry attempts to 3
 ```
-Use the BELLATRIX **AssertSchema** method to validate the schema. The same method can be used for XML responses as well.
+Instructs BELLATRIX to retry all failed requests 3 times until they succeed.

@@ -2,7 +2,7 @@
 layout: default
 title:  "Folder and File Structure"
 excerpt: "Learn what each BELLATRIX project templates includes."
-date:   2018-02-20 06:50:17 +0200
+date:   2019-05-30 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/folder-and-file-structure/
 anchors:
@@ -20,12 +20,12 @@ Find detailed information about what each empty project contains or should conta
 NuGet Dependencies
 ------------------
 ```
-<PackageReference Include="Bellatrix.API.MSTest" Version="1.1.0.15" />
+<PackageReference Include="Bellatrix.SpecFlow.API.MSTest" Version="1.5.0.5" />
 
 <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.3" />
-<PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
-<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.2" />
-<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
+<PackageReference Include="SpecFlow" Version="3.0.213" />
+<PackageReference Include="SpecFlow.MsTest" Version="3.0.213" />
+<PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.0.213" />
 <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
 <PackageReference Include="MSTest.TestAdapter" Version="1.3.0" />
 <PackageReference Include="MSTest.TestFramework" Version="1.3.0" />
@@ -35,7 +35,7 @@ NuGet Dependencies
 <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004"/>
 <PackageReference Include="RestSharp" Version="106.2.2" />
 ```
-As you can see the most important package that you need is **Bellatrix.API.MSTest**, it depends on all below packages. This is the bare minimum.  Next you need to install the BELLATRIX browser NuGets. 
+As you can see the most important package that you need is **Bellatrix.SpecFlow.API.MSTest**, it depends on all below packages. This is the bare minimum.  Next you need to install the BELLATRIX browser NuGets. 
 **Microsoft.NET.Test.Sdk**, **MSTest.TestAdapter**,** MSTest.TestFramework** are prerequisites so that you can execute MSTest framework tests.
 Since Bellatrix.API is a wrapper around RestSharp we install it.
 Also, we use Unity inversion of control container inside BELLATRIX for many things.  You will not be able to use it directly, but there are a couple of ways that you will use it in your code for some more complex scenarios.
