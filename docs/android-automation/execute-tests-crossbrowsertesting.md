@@ -12,79 +12,50 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestClass]
-[AndroidCrossBrowserTesting("crossBrowser-storage:ApiDemos.apk",
-    "7.1",
-    "Android GoogleAPI Emulator",
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.ControlsMaterialDark",
-    AppBehavior.RestartEveryTime,
-    recordVideo: true,
-    recordNetwork: true,
-    build: "CI Execution")]
-public class CrossBrowserTesting : AndroidTest
-{
-    [TestMethod]
-    public void ButtonClicked_When_CallClickMethod()
-    {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+```
+Feature: Navigate to BELLATRIX Online Rocket Shop
+	To purchase a new rocket
+	As a Nuclear Engineer 
+	I want to be able to buy a new rocket.
 
-        button.Click();
-    }
+Background:
+Given I open Android app with path AssemblyFolder\Demos\ApiDemos.apk in CrossBrowserTesting
+And I restart the app on test fail
+And I use device with name android25-test
+And I use Android version 7.1
+And I use app package com.example.android.apis
+And I use app activity .view.Controls1
+And I want to record a video of the execution
+And I want to user screen resolution 1200 px x 800 px
+And I want to capture a network logs of the execution
+And I want to set build = myCustomName
+And I open app
 
-    [TestMethod]
-    [AndroidCrossBrowserTesting("crossBrowser-storage:ApiDemos.apk",
-        "7.1",
-        "Android GoogleAPI Emulator",
-        Constants.AndroidNativeAppAppExamplePackage,
-        ".view.ControlsMaterialDark",
-        AppBehavior.ReuseIfStarted,
-        recordVideo: true,
-        recordNetwork: true,
-        build: "CI Execution")]
-    public void ButtonClicked_When_CallClickMethodSecond()
-    {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
-
-        button.Click();
-    }
-}
+Scenario: Successfully Transfer Item
+	When I navigate to main page
+	And I transfer item Jupiter user name antares password secret
+	Then I assert that keep me logged is checked
+    And I assert that permanent trasnfer is checked
+    And I assert that Jupiter right item is selected
+    And I assert that antares user name is set
 ```
 
 Explanations
 ------------
-```csharp
-[AndroidCrossBrowserTesting("crossBrowser-storage:ApiDemos.apk",
-    "7.1",
-    "Android GoogleAPI Emulator",
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.ControlsMaterialDark",
-    AppBehavior.RestartEveryTime,
-    recordVideo: true,
-    recordNetwork: true,
-    build: "CI Execution")]
 ```
-To execute BELLATRIX tests in CrossBrowserTesting cloud, you should use the CrossBrowserTesting attribute instead of Android. CrossBrowserTesting has the same parameters as Android but adds to additional ones- deviceName, recordVideo, recordNetwork and build. The last three are optional and have default values. As with the Android attribute you can override the class behaviour on Test level.
-```csharp
-[TestMethod]
-[AndroidCrossBrowserTesting("crossBrowser-storage:ApiDemos.apk",
-    "7.1",
-    "Android GoogleAPI Emulator",
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.ControlsMaterialDark",
-    AppBehavior.ReuseIfStarted,
-    recordVideo: true,
-    recordNetwork: true,
-    build: "CI Execution")]
-public void ButtonClicked_When_CallClickMethodSecond()
-{
-    var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
-
-    button.Click();
-}
+Given I open Android app with path AssemblyFolder\Demos\ApiDemos.apk in CrossBrowserTesting
+And I restart the app on test fail
+And I use device with name android25-test
+And I use Android version 7.1
+And I use app package com.example.android.apis
+And I use app activity .view.Controls1
+And I want to record a video of the execution
+And I want to user screen resolution 1200 px x 800 px
+And I want to capture a network logs of the execution
+And I want to set build = myCustomName
+And I open app
 ```
-As mentioned if you use the BrowserStack attribute on method level it overrides the class settings.
+To execute BELLATRIX tests in CrossBrowserTesting cloud, you could use the BrowserStack predefined steps. CrossBrowserTesting integreation provides additional steps for capturing video, capturing network logs, build and debug. The last four are optional and have default values.
 
 Configuration
 -------------

@@ -2,7 +2,7 @@
 layout: default
 title:  "AppService"
 excerpt: "Learn how to use BELLATRIX Android AppService."
-date:   2018-06-22 06:50:17 +0200
+date:   2019-05-30 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/app-service/
 anchors:
@@ -11,65 +11,55 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestClass]
-[Android(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.Controls1",
-    AppBehavior.RestartEveryTime)]
-public class AppServiceTests : AndroidTest
-{
-    [TestMethod]
-    public void TestBackgroundApp()
-    {
-        App.AppService.BackgroundApp(1);
-    }
+```
+Feature: Navigate to BELLATRIX Online Rocket Shop
+	To purchase a new rocket
+	As a Nuclear Engineer 
+	I want to be able to buy a new rocket.
 
-    [TestMethod]
-    public void TestResetApp()
-    {
-        App.AppService.ResetApp();
-    }
+Background:
+Given I use app with path AssemblyFolder\Demos\ApiDemos.apk
+And I restart the app on test fail
+And I use device with name android25-test
+And I use Android version 7.1
+And I use app package com.example.android.apis
+And I use app activity .view.Controls1
+And I open app
 
-    [TestMethod]
-    public void InstallAppInstalledFalse_When_AppIsUninstalled()
-    {
-        string appPath = Path.Combine(ProcessProvider.GetExecutingAssemblyFolder(), "Demos\\ApiDemos.apk");
-
-        App.AppService.InstallApp(appPath);
-
-        App.AppService.RemoveApp("com.example.android.apis");
-
-        Assert.IsFalse(App.AppService.IsAppInstalled("com.example.android.apis"));
-
-        App.AppService.InstallApp(appPath);
-        Assert.IsTrue(App.AppService.IsAppInstalled("com.example.android.apis"));
-    }
-}
+Scenario: Successfully Transfer Item
+	When I reset the android app
+	And I reset the android app
+    And I start activity .view.Controls1 from package com.example.android.apis
 ```
 
 Explanations
 ------------
-BELLATRIX gives you an interface to most common operations for controlling the Android app through the AppService class. We already saw one of them StartActivity for opening a particular initial activity.
-```csharp
-App.AppService.BackgroundApp(1);
+BELLATRIX gives you predefined steps for most common operations for controlling the Android app through the AppService class.
+```
+I close the android app
+```
+Closes the app.
+```
+I launch the android app
+```
+Launches the app.
+```
+I background the android app for 2 seconds
 ```
 Backgrounds the app for the specified number of seconds.
-```csharp
-App.AppService.ResetApp();
+```
+I reset the android app
 ```
 Resets the app.
-```csharp
-Assert.IsTrue(App.AppService.IsAppInstalled("com.example.android.apis"));
 ```
-Checks whether the app with the specified app package is installed.
-```csharp
-App.AppService.InstallApp(appPath);
+I start activity .view.Controls1 from package com.example.android.apis
+```
+Starts activity from the specified package.
+```
+I install android app with path AssemblyFolder\Demos\ApiDemos.apk
 ```
 Installs the APK file on the device.
-```csharp
-App.AppService.RemoveApp("io.appium.android.apis");
+```
+I remove android app with package io.appium.android.apis
 ```
 Uninstalls the app with the specified app package.

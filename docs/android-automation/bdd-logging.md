@@ -2,7 +2,7 @@
 layout: default
 title:  "Behaviour Driven Development BDD Logging"
 excerpt: "Learn the BELLATRIX Behaviour Driven Development BDD Logging works and how to use it."
-date:   2018-10-22 06:50:17 +0200
+date:   2019-05-30 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/bdd-logging/
 anchors:
@@ -12,36 +12,28 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestMethod]
-public void CommonAssertionsAndroidControls()
-{
-    var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+```
+Feature: Navigate to BELLATRIX Online Rocket Shop
+	To purchase a new rocket
+	As a Nuclear Engineer 
+	I want to be able to buy a new rocket.
 
-    button.EnsureIsNotDisabled();
+Background:
+Given I use app with path AssemblyFolder\Demos\ApiDemos.apk
+And I restart the app on test fail
+And I use device with name android25-test
+And I use Android version 7.1
+And I use app package com.example.android.apis
+And I use app activity .view.Controls1
+And I open app
 
-    var checkBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check1");
-
-    checkBox.Check();
-
-    checkBox.EnsureIsChecked();
-
-    var comboBox = App.ElementCreateService.CreateByIdContaining<ComboBox>("spinner1");
-
-    comboBox.SelectByText("Jupiter");
-
-    comboBox.EnsureTextIs("Jupiter");
-
-    var label = App.ElementCreateService.CreateByText<Label>("textColorPrimary");
-
-    label.EnsureIsVisible();
-
-    var radioButton = App.ElementCreateService.CreateByIdContaining<RadioButton>("radio2");
-
-    radioButton.Click();
-
-    radioButton.EnsureIsChecked(timeout: 30, sleepInterval: 2);
-}
+Scenario: Successfully Transfer Item
+	When I navigate to main page
+	And I transfer item Jupiter user name antares password secret
+	Then I assert that keep me logged is checked
+    And I assert that permanent trasnfer is checked
+    And I assert that Jupiter right item is selected
+    And I assert that antares user name is set
 ```
 
 Explanations

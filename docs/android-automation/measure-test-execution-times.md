@@ -2,7 +2,7 @@
 layout: default
 title:  "Measure Response Times"
 excerpt: "Learn how to measure text execution times using BELLATRIX Android module."
-date:   2018-10-22 06:50:17 +0200
+date:   2019-05-30 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/measure-test-execution-times/
 anchors:
@@ -11,48 +11,34 @@ anchors:
 ---
 Example
 --------
-```csharp
-using Bellatrix.TestExecutionExtensions.Common.ExecutionTime;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+```
+Feature: Navigate to BELLATRIX Online Rocket Shop
+	To purchase a new rocket
+	As a Nuclear Engineer 
+	I want to be able to buy a new rocket.
 
-namespace Bellatrix.Mobile.Android.GettingStarted
-{
-    [TestClass]
-    [ExecutionTimeUnder(2000, TimeUnit.Milliseconds)]
-    [Android(Constants.AndroidNativeAppPath,
-        Constants.AndroidDefaultAndroidVersion,
-        Constants.AndroidDefaultDeviceName,
-        Constants.AndroidNativeAppAppExamplePackage,
-        ".view.Controls1",
-        AppBehavior.ReuseIfStarted)]
-    public class MeasureTestExecutionTimesTests : AndroidTest
-    {
-        [TestMethod]
-        public void ButtonClicked_When_CallClickMethod()
-        {
-            var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+Background:
+Given I use app with path AssemblyFolder\Demos\ApiDemos.apk
+And I restart the app on test fail
+And I use device with name android25-test
+And I use Android version 7.1
+And I use app package com.example.android.apis
+And I use app activity .view.Controls1
+And I open app
 
-            button.Click();
-        }
-    }
-}
+@executiontimeunder-6-seconds
+Scenario: Successfully Transfer Item
+	When I navigate to main page
+	And I transfer item Jupiter user name antares password secret
+	Then I assert that keep me logged is checked
+    And I assert that permanent trasnfer is checked
+    And I assert that Jupiter right item is selected
+    And I assert that antares user name is set
 ```
 
 Explanations
 ------------
 ```csharp
-[TestClass]
-[ExecutionTimeUnder(2000, TimeUnit.Milliseconds)]
-[Android(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.Controls1",
-    AppBehavior.ReuseIfStarted)]
-public class MeasureTestExecutionTimesTests : AndroidTest
+@executiontimeunder-6-seconds
 ```
-Sometimes it is useful to use your functional tests to measure performance. Or to just make sure that your app is not slow. To do that BELLATRIX libraries offer the **ExecutionTimeUnder** attribute. You specify a timeout and if the test is executed over it the test will fail.
-```csharp
-using Bellatrix.TestExecutionExtensions.Common.ExecutionTime;
-```
-You need to add the NuGet package- **Bellatrix.TestExecutionExtensions.Common**. After that you need to add a using statement to **Bellatrix.TestExecutionExtensions.Common.ExecutionTime**
+Sometimes it is useful to use your functional tests to measure performance. Or to just make sure that your app is not slow. To do that BELLATRIX libraries offer the **@executiontimeunder** attribute. You specify a timeout and if the test is executed over it the test will fail.

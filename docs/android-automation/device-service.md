@@ -2,7 +2,7 @@
 layout: default
 title:  "DeviceService"
 excerpt: "Learn how to use BELLATRIX Android DeviceService."
-date:   2018-06-22 06:50:17 +0200
+date:   2019-05-30 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/device-service/
 anchors:
@@ -11,118 +11,80 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestClass]
-[Android(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.Controls1",
-    AppBehavior.RestartEveryTime)]
-public class DeviceServiceTests : AndroidTest
-{
-    [TestMethod]
-    public void OrientationSetToLandscape_When_CallRotateWithLandscape()
-    {
-        App.DeviceService.Rotate(ScreenOrientation.Landscape);
+```
+Feature: Navigate to BELLATRIX Online Rocket Shop
+	To purchase a new rocket
+	As a Nuclear Engineer 
+	I want to be able to buy a new rocket.
 
-        Assert.AreEqual(ScreenOrientation.Landscape, App.DeviceService.Orientation);
-    }
+Background:
+Given I use app with path AssemblyFolder\Demos\ApiDemos.apk
+And I restart the app on test fail
+And I use device with name android25-test
+And I use Android version 7.1
+And I use app package com.example.android.apis
+And I use app activity .view.Controls1
+And I open app
 
-    [TestMethod]
-    public void CorrectTimeReturned_When_CallDeviceTime()
-    {
-        BA.DateTimeAssert.AreEqual(DateTime.Now, App.DeviceService.DeviceTime, BA.DateTimeDeltaType.Minutes, 5);
-    }
-
-    [TestMethod]
-    public void DeviceIsLockedFalse_When_DeviceIsUnlocked()
-    {
-        App.DeviceService.Unlock();
-
-        Assert.IsTrue(App.DeviceService.IsLocked);
-    }
-
-    [TestMethod]
-    public void DeviceIsLockedTrue_When_CallLock()
-    {
-        App.DeviceService.Lock();
-
-        Assert.IsTrue(App.DeviceService.IsLocked);
-    }
-
-    [TestMethod]
-    public void ConnectionTypeAirplaneMode_When_SetConnectionTypeToAirplaneMode()
-    {
-        try
-        {
-            App.DeviceService.ConnectionType = ConnectionType.AirplaneMode;
-
-            Assert.AreEqual(ConnectionType.AirplaneMode, App.DeviceService.ConnectionType);
-
-            App.DeviceService.ConnectionType = ConnectionType.AllNetworkOn;
-            Assert.AreEqual(ConnectionType.AllNetworkOn, App.DeviceService.ConnectionType);
-        }
-        finally
-        {
-            App.DeviceService.ConnectionType = ConnectionType.AllNetworkOn;
-        }
-    }
-
-    [TestMethod]
-    public void TestTurnOnLocationService()
-    {
-        App.DeviceService.TurnOnLocationService();
-    }
-
-    [TestMethod]
-    public void TestOpenNotifications()
-    {
-        App.DeviceService.OpenNotifications();
-    }
-}
+Scenario: Successfully Transfer Item
+	When I open notifications
+    And I turn on the location service
+    And I lock the device
+    And I rotate the android device portrait
 ```
 
 Explanations
 ------------
-BELLATRIX gives you an interface to most common operations for controlling the device through the DeviceService class.
-```csharp
-App.DeviceService.Rotate(ScreenOrientation.Landscape);
+BELLATRIX gives you predefined steps for most common operations for controlling the device through the DeviceService class.
+```
+I rotate the android device landscape
 ```
 Rotates the device horizontally.
-```csharp
-Assert.AreEqual(ScreenOrientation.Landscape, App.DeviceService.Orientation);
 ```
-Gets the current device orientation.
-```csharp
-BA.DateTimeAssert.AreEqual(DateTime.Now, App.DeviceService.DeviceTime, BA.DateTimeDeltaType.Minutes, 5);
+I rotate the android device portrait
 ```
-Asserts current device time.
-```csharp
-App.DeviceService.Unlock();
+Rotates the device portrait.
+```
+I change the android device orientation to landscape
+```
+Changes the orientation to landscape.
+```
+I change the android device orientation to portrait
+```
+Changes the orientation to portrait.
+```
+I unlock the device
 ```
 Unlocks the device.
-```csharp
-Assert.IsTrue(App.DeviceService.IsLocked);
 ```
-Checks if the device is locked or not.
-```csharp
-App.DeviceService.Lock();
+I lock the device
 ```
 Locks the device.
-```csharp
-App.DeviceService.ConnectionType = ConnectionType.AirplaneMode;
+```
+I change the connection type to airplane mode
 ```
 Changes the connection to Airplane mode.
-```csharp
-Assert.AreEqual(ConnectionType.AirplaneMode, App.DeviceService.ConnectionType);
 ```
-Checks whether the current connection type is airplane mode.
-```csharp
-App.DeviceService.TurnOnLocationService();
+I change the connection type to all network on
+```
+Changes the connection to all network on.
+```
+I change the connection type to data only
+```
+Changes the connection to all data only.
+```
+I change the connection type to none
+```
+Changes the connection to all none.
+```
+I change the connection type to wifi only
+```
+Changes the connection to wifi only.
+```
+I turn on the location service
 ```
 Turns on the location service.
-```csharp
-App.DeviceService.OpenNotifications();
+```
+I open notifications
 ```
 Opens notifications.

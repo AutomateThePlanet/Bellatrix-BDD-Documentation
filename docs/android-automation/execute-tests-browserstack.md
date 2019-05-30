@@ -2,7 +2,7 @@
 layout: default
 title:  "Execute Tests in BrowserStack"
 excerpt: "Learn to use BELLATRIX to execute Android tests in BrowserStack."
-date:   2018-10-23 06:50:17 +0200
+date:   2019-05-30 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/execute-tests-browserstack/
 anchors:
@@ -12,87 +12,52 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestClass]
-[AndroidBrowserStack("pngG38y26LZ5muB1p46P",
-    "7.1",
-    "Android GoogleAPI Emulator",
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.ControlsMaterialDark",
-    AppBehavior.RestartEveryTime,
-    captureVideo: true,
-    captureNetworkLogs: true,
-    consoleLogType: BrowserStackConsoleLogType.Disable,
-    debug: false,
-    build: "CI Execution")]
-public class BrowserStackTests : AndroidTest
-{
-    [TestMethod]
-    public void ButtonClicked_When_CallClickMethod()
-    {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+```
+Feature: Navigate to BELLATRIX Online Rocket Shop
+	To purchase a new rocket
+	As a Nuclear Engineer 
+	I want to be able to buy a new rocket.
 
-        button.Click();
-    }
+Background:
+Given I open Android app with path AssemblyFolder\Demos\ApiDemos.apk in BrowserStack
+And I restart the app on test fail
+And I use device with name android25-test
+And I use Android version 7.1
+And I use app package com.example.android.apis
+And I use app activity .view.Controls1
+And I want to use console log type Warnings
+And I want to record a video of the execution
+And I want to user screen resolution 1200 px x 800 px
+And I want to capture a network logs of the execution
+And I want to set build = myCustomName
+And I open app
 
-    [TestMethod]
-    [AndroidBrowserStack("pngG38y26LZ5muB1p46P",
-        "7.1",
-        "Android GoogleAPI Emulator",
-        Constants.AndroidNativeAppAppExamplePackage,
-        ".view.ControlsMaterialDark",
-        AppBehavior.ReuseIfStarted,
-        captureVideo: true,
-        captureNetworkLogs: true,
-        consoleLogType: BrowserStackConsoleLogType.Disable,
-        debug: false,
-        build: "CI Execution")]
-    public void ButtonClicked_When_CallClickMethodSecond()
-    {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
-
-        button.Click();
-    }
-}
+Scenario: Successfully Transfer Item
+	When I navigate to main page
+	And I transfer item Jupiter user name antares password secret
+	Then I assert that keep me logged is checked
+    And I assert that permanent trasnfer is checked
+    And I assert that Jupiter right item is selected
+    And I assert that antares user name is set
 ```
 
 Explanations
 ------------
-```csharp
-[AndroidBrowserStack("pngG38y26LZ5muB1p46P",
-    "7.1",
-    "Android GoogleAPI Emulator",
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.ControlsMaterialDark",
-    AppBehavior.RestartEveryTime,
-    captureVideo: true,
-    captureNetworkLogs: true,
-    consoleLogType: BrowserStackConsoleLogType.Disable,
-    debug: false,
-    build: "CI Execution")]
 ```
-To execute BELLATRIX tests in BrowserStack cloud, you should use the BrowserStack attribute instead of Android. BrowserStack has the same parameters as Android but adds to additional ones- device name, captureVideo, captureNetworkLogs, consoleLogType, build and debug. The last five are optional and have default values. As with the Android attribute you can override the class behaviour on Test level.
-```csharp
-[TestMethod]
-[AndroidBrowserStack("pngG38y26LZ5muB1p46P",
-    "7.1",
-    "Android GoogleAPI Emulator",
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.ControlsMaterialDark",
-    AppBehavior.ReuseIfStarted,
-    captureVideo: true,
-    captureNetworkLogs: true,
-    consoleLogType: BrowserStackConsoleLogType.Disable,
-    debug: false,
-    build: "CI Execution")]
-public void ButtonClicked_When_CallClickMethodSecond()
-{
-    var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
-
-    button.Click();
-}
+Given I open Android app with path AssemblyFolder\Demos\ApiDemos.apk in BrowserStack
+And I restart the app on test fail
+And I use device with name android25-test
+And I use Android version 7.1
+And I use app package com.example.android.apis
+And I use app activity .view.Controls1
+And I want to use console log type Warnings
+And I want to record a video of the execution
+And I want to user screen resolution 1200 px x 800 px
+And I want to capture a network logs of the execution
+And I want to set build = myCustomName
+And I open app
 ```
-As mentioned if you use the BrowserStack attribute on method level it overrides the class settings.
+To execute BELLATRIX tests in BrowserStack cloud, you could use the BrowserStack predefined steps. BrowserStack integreation provides additional steps for capturing video, capturing network logs, setting console log type, build and debug. The last five are optional and have default values.
 
 Configuration
 -------------

@@ -2,7 +2,7 @@
 layout: default
 title:  "Troubleshooting- Video Recording"
 excerpt: "Learn how to use BELLATRIX cross-platform video recording."
-date:   2018-10-22 06:50:17 +0200
+date:   2019-05-30 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/troubleshooting-video-recording/
 anchors:
@@ -12,55 +12,54 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestClass]
-[VideoRecording(VideoRecordingMode.OnlyFail)]
-[Android(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.Controls1",
-    AppBehavior.ReuseIfStarted)]
-public class VideoRecordingTests : AndroidTest
-{
-    [TestMethod]
-    public void ButtonClicked_When_CallClickMethod()
-    {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+```
+Feature: Navigate to BELLATRIX Online Rocket Shop
+	To purchase a new rocket
+	As a Nuclear Engineer 
+	I want to be able to buy a new rocket.
 
-        button.Click();
-    }
+Background:
+Given I use app with path AssemblyFolder\Demos\ApiDemos.apk
+And I restart the app on test fail
+And I use device with name android25-test
+And I use Android version 7.1
+And I use app package com.example.android.apis
+And I use app activity .view.Controls1
+And I record a video for failed tests
+And I open app
 
-    [TestMethod]
-    [VideoRecording(VideoRecordingMode.DoNotRecord)]
-    public void ButtonClicked_When_CallClickMethodSecond()
-    {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
-
-        button.Click();
-    }
-}
+Scenario: Successfully Transfer Item
+	When I navigate to main page
+	And I transfer item Jupiter user name antares password secret
+	Then I assert that keep me logged is checked
+    And I assert that permanent trasnfer is checked
+    And I assert that Jupiter right item is selected
+    And I assert that antares user name is set
 ```
 
 Explanations
 ------------
-```csharp
-[VideoRecording(VideoRecordingMode.OnlyFail)]
 ```
-This is the attribute for cross-platform video recording by BELLATRIX. The engine checks after each test, its result, depending on the specified video saves the video.
+Given I record a video for failed tests
+```
+This is a predefined BELLATRIX SpecFlow step for cross-platform video recording. The engine checks after each test, its result, depending on the specified video saves the video.
 All video recording modes:
-- **Always** - records and save video for all tests.
-- **DoNotRecord** - wont' record any videos.
-- **Ignore** - ignores the tests.
-- **OnlyPass** - saves the videos only for pass tests.
-- **OnlyFail** - saves the videos only for failed tests.
-If you place attribute over the class all tests inherit the behaviour.
-```csharp
-[TestMethod]
-[VideoRecording(VideoRecordingMode.DoNotRecord)]
-public void ButtonClicked_When_CallClickMethodSecond()
+
 ```
-It is possible to put it over each test and this way you override the class behaviour only for this particular test. The global behaviour for all tests in the class is to save the videos only for failed tests. Only for this particular test, we tell BELLATRIX not to make a video.
+Given I record a video for all tests
+```
+Records and save video for all tests.
+```
+Given I record a video for passed tests
+```
+Saves the videos only for pass tests.
+```
+Given I record a video for failed tests
+```
+Saves the videos only for failed tests.
+```
+Given I record a video for failed tests
+```
 
 Configuration
 -------------

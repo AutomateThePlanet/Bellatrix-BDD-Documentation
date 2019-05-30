@@ -2,7 +2,7 @@
 layout: default
 title:  "Execute Tests in SauceLabs"
 excerpt: "Learn to use BELLATRIX to execute Android tests in SauceLabs."
-date:   2018-10-23 06:50:17 +0200
+date:   2019-05-30 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/execute-tests-saucelabs/
 anchors:
@@ -12,68 +12,48 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestClass]
-[AndroidSauceLabs("sauce-storage:ApiDemos.apk",
-    "7.1",
-    "Android GoogleAPI Emulator",
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.ControlsMaterialDark",
-    AppBehavior.RestartEveryTime)]
-public class SauceLabsTests : AndroidTest
-{
-    [TestMethod]
-    public void ButtonClicked_When_CallClickMethod()
-    {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+```
+Feature: Navigate to BELLATRIX Online Rocket Shop
+	To purchase a new rocket
+	As a Nuclear Engineer 
+	I want to be able to buy a new rocket.
 
-        button.Click();
-    }
+Background:
+Given I open Android app with path AssemblyFolder\Demos\ApiDemos.apk in SauceLabs
+And I restart the app on test fail
+And I use device with name android25-test
+And I use Android version 7.1
+And I use app package com.example.android.apis
+And I use app activity .view.Controls1
+And I want to record a video of the execution
+And I want to user screen resolution 1200 px x 800 px
+And I want to record screenshots of the execution
+And I open app
 
-    [TestMethod]
-    [AndroidSauceLabs("sauce-storage:ApiDemos.apk",
-        "7.1",
-        "Android GoogleAPI Emulator",
-        Constants.AndroidNativeAppAppExamplePackage,
-        ".view.ControlsMaterialDark",
-        AppBehavior.ReuseIfStarted)]
-    public void ButtonClicked_When_CallClickMethodSecond()
-    {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
-
-        button.Click();
-    }
-}
+Scenario: Successfully Transfer Item
+	When I navigate to main page
+	And I transfer item Jupiter user name antares password secret
+	Then I assert that keep me logged is checked
+    And I assert that permanent trasnfer is checked
+    And I assert that Jupiter right item is selected
+    And I assert that antares user name is set
 ```
 
 Explanations
 ------------
-```csharp
-[AndroidSauceLabs("sauce-storage:ApiDemos.apk",
-    "7.1",
-    "Android GoogleAPI Emulator",
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.ControlsMaterialDark",
-    AppBehavior.RestartEveryTime)]
 ```
-To execute BELLATRIX tests in SauceLabs cloud you should use the AndroidSauceLabs attribute instead of Android. SauceLabs has the same parameters as Android but adds to additional ones- device name, recordVideo and recordScreenshots. As with the Android attribute you can override the class behavior on Test level.
-```csharp
-[TestMethod]
-[AndroidSauceLabs("sauce-storage:ApiDemos.apk",
-    "7.1",
-    "Android GoogleAPI Emulator",
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.ControlsMaterialDark",
-    AppBehavior.ReuseIfStarted)]
-[Ignore]
-public void ButtonClicked_When_CallClickMethodSecond()
-{
-    var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
-
-    button.Click();
-}
+Given I open Android app with path AssemblyFolder\Demos\ApiDemos.apk in SauceLabs
+And I restart the app on test fail
+And I use device with name android25-test
+And I use Android version 7.1
+And I use app package com.example.android.apis
+And I use app activity .view.Controls1
+And I want to record a video of the execution
+And I want to user screen resolution 1200 px x 800 px
+And I want to record screenshots of the execution
+And I open app
 ```
-As mentioned if you use the SauceLabs attribute on method level it overrides the class settings.
+To execute BELLATRIX tests in SauceLabs cloud, you could use the BrowserStack predefined steps. SauceLabs integreation provides additional steps for capturing video and capturing screenshots. The last are optional and have default values.
 
 Configuration
 -------------

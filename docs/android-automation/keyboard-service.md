@@ -2,7 +2,7 @@
 layout: default
 title:  "KeyboardService"
 excerpt: "Learn how to use BELLATRIX Android KeyboardService."
-date:   2018-06-22 06:50:17 +0200
+date:   2019-05-30 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/keyboard-service/
 anchors:
@@ -12,70 +12,37 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
-[Android(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".app.CustomTitle",
-    AppBehavior.RestartEveryTime)]
-public class KeyboardServiceTests : AndroidTest
-{
-    [TestMethod]
-    public void TestHideKeyBoard()
-    {
-        var textField = App.ElementCreateService.CreateByIdContaining<TextField>("left_text_edit");
-        textField.SetText(string.Empty);
+Feature: Navigate to BELLATRIX Online Rocket Shop
+	To purchase a new rocket
+	As a Nuclear Engineer 
+	I want to be able to buy a new rocket.
 
-        App.KeyboardService.HideKeyboard();
-    }
+Background:
+Given I use app with path AssemblyFolder\Demos\ApiDemos.apk
+And I restart the app on test fail
+And I use device with name android25-test
+And I use Android version 7.1
+And I use app package com.example.android.apis
+And I use app activity .view.Controls1
+And I open app
 
-    [TestMethod]
-    public void PressKeyCodeTest()
-    {
-        App.KeyboardService.PressKeyCode(AndroidKeyCode.Home);
-    }
-
-    [TestMethod]
-    public void PressKeyCodeWithMetaStateTest()
-    {
-        App.KeyboardService.PressKeyCode(AndroidKeyCode.Space, AndroidKeyMetastate.Meta_Shift_On);
-    }
-
-    [TestMethod]
-    public void LongPressKeyCodeTest()
-    {
-        App.KeyboardService.LongPressKeyCode(AndroidKeyCode.Home);
-    }
-
-    [TestMethod]
-    public void LongPressKeyCodeWithMetaStateTest()
-    {
-        App.KeyboardService.LongPressKeyCode(AndroidKeyCode.Space, AndroidKeyMetastate.Meta_Shift_On);
-    }
-}
+Scenario: Successfully Transfer Item
+	When I long press key A with meta key Shift
+	And I hide the android app keyboard
 ```
 
 Explanations
 ------------
-BELLATRIX gives you an interface for easier work with device's keyboard through KeyboardService class.
+BELLATRIX gives you predefined steps for easier work with device's keyboard through KeyboardService class.
 ```csharp
-App.KeyboardService.HideKeyboard();
+I hide the android app keyboard
 ```
 Hides the keyboard.
 ```csharp
-App.KeyboardService.PressKeyCode(AndroidKeyCode.Home);
+I press key Space with meta key Shift
 ```
-Press the Home button.
-```csharp
-App.KeyboardService.PressKeyCode(AndroidKeyCode.Space, AndroidKeyMetastate.Meta_Shift_On);
+Presses Space key simulating that the Shift key is ON.
 ```
-Press Space key simulating that the Shift key is ON.
-```csharp
-App.KeyboardService.LongPressKeyCode(AndroidKeyCode.Home);
+I long press key Space with meta key Shift
 ```
-Long press the Home button.
-```csharp
-App.KeyboardService.LongPressKeyCode(AndroidKeyCode.Space, AndroidKeyMetastate.Meta_Shift_On);
-```
-Long press Space key simulating that the Shift key is ON.
+Long presses Space key simulating that the Shift key is ON.
