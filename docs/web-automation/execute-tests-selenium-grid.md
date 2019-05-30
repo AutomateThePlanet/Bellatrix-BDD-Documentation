@@ -2,7 +2,7 @@
 layout: default
 title:  "Execute Tests in Selenium Grid"
 excerpt: "Learn to use BELLATRIX to execute tests in Selenium Grid."
-date:   2018-06-23 06:50:17 +0200
+date:   2019-05-30 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/execute-tests-selenium-grid/
 anchors:
@@ -12,63 +12,43 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestClass]
-[Remote(BrowserType.Chrome, "62", PlatformType.Windows, BrowserBehavior.ReuseIfStarted)]
-public class SeleniumGridTests : WebTest
-{
-    [TestMethod]
-    public void PromotionsPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+```
+Feature: Selenium Grid Integration
+	In order to use the browser in a Selenium Grid
+	As a automation engineer
+	I want BELLATRIX to provide me handy method to do my job
 
-        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+Background: 
+Given I open Chrome browser 68 in Grid
+And I want to run the browser on Windows platform in Gird
+And I restart the browser on test fail
+And I resize the browser 1200 px x 800 px
+And I open browser
 
-        promotionsLink.Click();
-    }
-
-    [TestMethod]
-    [Remote(BrowserType.Chrome, "62", PlatformType.Windows, DesktopWindowSize._1280_1024, BrowserBehavior.ReuseIfStarted)]
-    public void BlogPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-        var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
-
-        blogLink.Click();
-    }
-}
+Scenario: Browser Service Common Steps
+	When I navigate to URL http://demos.bellatrix.solutions/product/falcon-9/
+	And I refresh the browser
+	When I wait until the browser is ready
+	And I wait for all AJAX requests to finish
+	And I maximize the browser
+	And I navigate to URL http://demos.bellatrix.solutions/
+	And I click browser's back button
+	And I click browser's forward button
+    And I click browser's back button
+	And I wait for partial URL falcon-9
 ```
 
 Explanations
 ------------
-```csharp
-[Remote(BrowserType.Chrome, "62", PlatformType.Windows, BrowserBehavior.ReuseIfStarted)]
 ```
-To use BELLATRIX with Selenium Grid, you should use the Remote attribute instead of Browser. Remote has the same parameters as Browser but adds to additional ones- browser version and platform type. As with the Browser attribute you can override the class behavior on Test level.
-```csharp
-[TestMethod]
-[Remote(BrowserType.Chrome, "62", PlatformType.Windows, DesktopWindowSize._1280_1024, BrowserBehavior.ReuseIfStarted)]
-public void BlogPageOpened_When_PromotionsButtonClicked()
-{
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-    var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
-
-    blogLink.Click();
-}
+Background: 
+Given I open Chrome browser 68 in Grid
+And I want to run the browser on Windows platform in Gird
+And I restart the browser on test fail
+And I resize the browser 1200 px x 800 px
+And I open browser
 ```
-As mentioned if you use the Remote attribute on method level it overrides the class settings.
-```csharp
-[Remote(BrowserType.Chrome, "62", PlatformType.Windows, 1000, 500, BrowserBehavior.ReuseIfStarted)]
-```
-```csharp
-[Remote(BrowserType.Chrome, "62", PlatformType.Windows, MobileWindowSize._320_568, BrowserBehavior.ReuseIfStarted)]
-```
-```csharp
-[Remote(BrowserType.Chrome, "62", PlatformType.Windows, TabletWindowSize._600_1024, BrowserBehavior.ReuseIfStarted)]
-```
-As you can see with the Remote attribute we can change the browser window size again.
+To use BELLATRIX with Selenium Grid, you should use the Grid predefined steps. You have ones for specifying- browser version and platform type.
 
 Configuration
 -------------

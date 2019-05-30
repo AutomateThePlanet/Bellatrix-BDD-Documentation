@@ -45,7 +45,7 @@ Scenario: Browser Service Common Steps
 
 Explanations
 ------------
-```csharp
+```
 Given I open Chrome browser 68 in BrowserStack
 And I want to run the browser on Windows platform
 And I want to run the browser on 10 OS version

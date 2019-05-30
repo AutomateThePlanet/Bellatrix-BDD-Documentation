@@ -2,7 +2,7 @@
 layout: default
 title:  "Execute Tests in SauceLabs"
 excerpt: "Learn to use BELLATRIX to execute web tests in SauceLabs."
-date:   2018-06-23 06:50:17 +0200
+date:   2019-05-30 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/execute-tests-saucelabs/
 anchors:
@@ -12,73 +12,50 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestClass]
-[SauceLabs(BrowserType.Chrome,
-    "62",
-    "Windows",
-    BrowserBehavior.ReuseIfStarted,
-    recordScreenshots: true,
-    recordVideo: true)]
-public class SauceLabsTests : WebTest
-{
-    [TestMethod]
-    public void PromotionsPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+```
+Feature: SauceLabs Integration
+	In order to use the browser in the SauceLabs Cloud
+	As a automation engineer
+	I want BELLATRIX to provide me handy method to do my job
 
-        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+Background: 
+Given I open Chrome browser 68 in SauceLabs
+And I want to run the browser on Windows platform
+And I want to record a video of the execution
+And I want to capture a network logs of the execution
+And I want to capture a network logs of the execution
+And I want to set build = OrionBeta
+And I resize the browser 1200 px x 800 px
+And I open browser
 
-        promotionsLink.Click();
-    }
-
-    [TestMethod]
-    [SauceLabs(BrowserType.Chrome, "62", "Windows", DesktopWindowSize._1280_1024, BrowserBehavior.ReuseIfStarted)]
-    public void BlogPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-        var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
-
-        blogLink.Click();
-    }
+Scenario: Browser Service Common Steps
+	When I navigate to URL http://demos.bellatrix.solutions/product/falcon-9/
+	And I refresh the browser
+	When I wait until the browser is ready
+	And I wait for all AJAX requests to finish
+	And I maximize the browser
+	And I navigate to URL http://demos.bellatrix.solutions/
+	And I click browser's back button
+	And I click browser's forward button
+    And I click browser's back button
+	And I wait for partial URL falcon-9
 }
 ```
 
 Explanations
 ------------
-```csharp
-[SauceLabs(BrowserType.Chrome,
-    "62",
-    "Windows",
-    BrowserBehavior.ReuseIfStarted,
-    recordScreenshots: true,
-    recordVideo: true)]
 ```
-To execute BELLATRIX tests in SauceLabs cloud you should use the SauceLabs attribute instead of Browser. SauceLabs has the same parameters as Browser but adds to additional ones- browser version, platform type, recordVideo and recordScreenshots. As with the Browser attribute you can override the class behavior on Test level.
-```csharp
-[TestMethod]
-[SauceLabs(BrowserType.Chrome, "62", "Windows", DesktopWindowSize._1280_1024, BrowserBehavior.ReuseIfStarted)]
-public void BlogPageOpened_When_PromotionsButtonClicked()
-{
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-    var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
-
-    blogLink.Click();
-}
+Background: 
+Given I open Chrome browser 68 in SauceLabs
+And I want to run the browser on Windows platform
+And I want to record a video of the execution
+And I want to capture a network logs of the execution
+And I want to capture a network logs of the execution
+And I want to set build = OrionBeta
+And I resize the browser 1200 px x 800 px
+And I open browser
 ```
-As mentioned if you use the SauceLabs attribute on method level it overrides the class settings.
-```csharp
-[SauceLabs(BrowserType.Chrome, "62", "Windows", 1000, 500, BrowserBehavior.ReuseIfStarted)]
-```
-```csharp
-[SauceLabs(BrowserType.Chrome, "62", "Windows", MobileWindowSize._320_568, BrowserBehavior.ReuseIfStarted)]
-```
-```csharp
-[SauceLabs(BrowserType.Chrome, "62", "Windows", TabletWindowSize._600_1024, BrowserBehavior.ReuseIfStarted)]
-```
-As you can see with the SauceLabs attribute we can change the browser window size again.
+To execute BELLATRIX tests in SauceLabs cloud you should use the SauceLabs predefined steps. You have ones for specifying- browser version, platform type, recordVideo and recordScreenshots. 
 
 Configuration
 -------------
