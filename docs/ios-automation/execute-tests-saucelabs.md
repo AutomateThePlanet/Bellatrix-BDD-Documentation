@@ -2,7 +2,7 @@
 layout: default
 title:  "Execute Tests in SauceLabs"
 excerpt: "Learn to use BELLATRIX to execute iOS tests in SauceLabs."
-date:   2018-11-23 06:50:17 +0200
+date:   2019-05-31 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/execute-tests-saucelabs/
 anchors:
@@ -12,59 +12,39 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestClass]
-[IOSSauceLabs("sauce-storage:TestApp.app.zip",
-    Constants.IOSDefaultVersion,
-    Constants.IOSDefaultDeviceName,
-    AppBehavior.RestartEveryTime)]
-public class SauceLabsTests : IOSTest
-{
-    [TestMethod]
-    public void ButtonClicked_When_CallClickMethod()
-    {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
-
-        button.Click();
-    }
-
-    [TestMethod]
-    [IOSSauceLabs("sauce-storage:TestApp.app.zip",
-        Constants.IOSDefaultVersion,
-        Constants.IOSDefaultDeviceName,
-        AppBehavior.ReuseIfStarted)]
-    public void ButtonClicked_When_CallClickMethodSecond()
-    {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
-
-        button.Click();
-    }
-}
 ```
+Feature: Navigate to BELLATRIX Online Rocket Shop
+	To purchase a new rocket
+	As a Nuclear Engineer 
+	I want to be able to buy a new rocket.
 
+Background:
+Given I open iOS app with path AssemblyFolder/Demos/TestApp.app.zip in SauceLabs
+And I restart the app on test fail
+And I use device with name iPhone 6
+And I use iOS version 11.3
+And I want to record a video of the execution
+And I want to user screen resolution 1200 px x 800 px
+And I want to record screenshots of the execution
+And I open app
+
+Scenario: Successfully Sum 5 And 6
+	When I sum 5 and 6
+	Then I assert answer is 11
+```
 Explanations
 ------------
-```csharp
-[IOSSauceLabs("sauce-storage:TestApp.app.zip",
-    Constants.IOSDefaultVersion,
-    Constants.IOSDefaultDeviceName,
-    AppBehavior.RestartEveryTime)]
 ```
-To execute BELLATRIX tests in SauceLabs cloud you should use the IOSSauceLabs attribute instead of IOS. SauceLabs has the same parameters as IOS but adds to additional ones- device name, recordVideo and recordScreenshots. As with the IOS attribute you can override the class behavior on Test level.
-```csharp
-[TestMethod]
-[IOSSauceLabs("sauce-storage:TestApp.app.zip",
-    Constants.IOSDefaultVersion,
-    Constants.IOSDefaultDeviceName,
-    AppBehavior.ReuseIfStarted)]
-public void ButtonClicked_When_CallClickMethodSecond()
-{
-    var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
-
-    button.Click();
-}
+Given I open iOS app with path AssemblyFolder/Demos/TestApp.app.zip in SauceLabs
+And I restart the app on test fail
+And I use device with name iPhone 6
+And I use iOS version 11.3
+And I want to record a video of the execution
+And I want to user screen resolution 1200 px x 800 px
+And I want to record screenshots of the execution
+And I open app
 ```
-As mentioned if you use the SauceLabs attribute on method level it overrides the class settings.
+To execute BELLATRIX tests in SauceLabs cloud, you could use the SauceLabs predefined steps. SauceLabs integration provides additional steps for capturing video and capturing screenshots. The last are optional and have default values.
 
 Configuration
 -------------

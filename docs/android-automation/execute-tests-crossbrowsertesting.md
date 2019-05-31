@@ -35,11 +35,10 @@ Scenario: Successfully Transfer Item
 	When I navigate to main page
 	And I transfer item Jupiter user name antares password secret
 	Then I assert that keep me logged is checked
-    And I assert that permanent trasnfer is checked
-    And I assert that Jupiter right item is selected
-    And I assert that antares user name is set
+  And I assert that permanent trasnfer is checked
+  And I assert that Jupiter right item is selected
+  And I assert that antares user name is set
 ```
-
 Explanations
 ------------
 ```
@@ -55,7 +54,7 @@ And I want to capture a network logs of the execution
 And I want to set build = myCustomName
 And I open app
 ```
-To execute BELLATRIX tests in CrossBrowserTesting cloud, you could use the BrowserStack predefined steps. CrossBrowserTesting integreation provides additional steps for capturing video, capturing network logs, build and debug. The last four are optional and have default values.
+To execute BELLATRIX tests in CrossBrowserTesting cloud, you could use the BrowserStack predefined steps. CrossBrowserTesting integration provides additional steps for capturing video, capturing network logs, build and debug. The last four are optional and have default values.
 
 Configuration
 -------------

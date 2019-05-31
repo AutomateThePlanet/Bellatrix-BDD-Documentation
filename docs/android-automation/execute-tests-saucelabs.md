@@ -38,7 +38,6 @@ Scenario: Successfully Transfer Item
     And I assert that Jupiter right item is selected
     And I assert that antares user name is set
 ```
-
 Explanations
 ------------
 ```
@@ -53,7 +52,7 @@ And I want to user screen resolution 1200 px x 800 px
 And I want to record screenshots of the execution
 And I open app
 ```
-To execute BELLATRIX tests in SauceLabs cloud, you could use the BrowserStack predefined steps. SauceLabs integreation provides additional steps for capturing video and capturing screenshots. The last are optional and have default values.
+To execute BELLATRIX tests in SauceLabs cloud, you could use the SauceLabs predefined steps. SauceLabs integration provides additional steps for capturing video and capturing screenshots. The last are optional and have default values.
 
 Configuration
 -------------

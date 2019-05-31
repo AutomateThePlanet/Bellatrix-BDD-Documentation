@@ -2,7 +2,7 @@
 layout: default
 title:  "Execute Tests in BrowserStack"
 excerpt: "Learn to use BELLATRIX to execute iOS tests in BrowserStack."
-date:   2018-11-23 06:50:17 +0200
+date:   2019-05-31 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/execute-tests-browserstack/
 anchors:
@@ -12,79 +12,44 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestClass]
-[IOSBrowserStack("pngG38y26LZ5muB1p46P",
-    "11.3",
-    "iPhone 6",
-    AppBehavior.RestartEveryTime,
-    captureVideo: true,
-    captureNetworkLogs: true,
-    consoleLogType: BrowserStackConsoleLogType.Disable,
-    debug: false,
-    build: "CI Execution")]
-public class BrowserStackTests : IOSTest
-{
-    [TestMethod]
-    public void ButtonClicked_When_CallClickMethod()
-    {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+```
+Feature: Navigate to BELLATRIX Online Rocket Shop
+	To purchase a new rocket
+	As a Nuclear Engineer 
+	I want to be able to buy a new rocket.
 
-        button.Click();
-    }
+Background:
+Given I open iOS app with path AssemblyFolder/Demos/TestApp.app.zip in BrowserStack
+And I restart the app on test fail
+And I use device with name iPhone 6
+And I use iOS version 11.3
+And I want to use console log type Warnings
+And I want to record a video of the execution
+And I want to user screen resolution 1200 px x 800 px
+And I want to capture a network logs of the execution
+And I want to set build = myCustomName
+And I open app
 
-    [TestMethod]
-    [IOSBrowserStack("pngG38y26LZ5muB1p46P",
-        "11.3",
-        "iPhone 6",
-        AppBehavior.RestartOnFail,
-        captureVideo: true,
-        captureNetworkLogs: true,
-        consoleLogType: BrowserStackConsoleLogType.Disable,
-        debug: false,
-        build: "CI Execution")]
-    public void ButtonClicked_When_CallClickMethodSecond()
-    {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
-
-        button.Click();
-    }
-}
+Scenario: Successfully Sum 5 And 6
+	When I sum 5 and 6
+	Then I assert answer is 11
 ```
 
 Explanations
 ------------
-```csharp
-[IOSBrowserStack("pngG38y26LZ5muB1p46P",
-    "11.3",
-    "iPhone 6",
-    AppBehavior.RestartEveryTime,
-    captureVideo: true,
-    captureNetworkLogs: true,
-    consoleLogType: BrowserStackConsoleLogType.Disable,
-    debug: false,
-    build: "CI Execution")]
 ```
-To execute BELLATRIX tests in BrowserStack cloud, you should use the BrowserStack attribute instead of IOS. BrowserStack has the same parameters as IOS but adds to additional ones- device name, captureVideo, captureNetworkLogs, consoleLogType, build and debug. The last five are optional and have default values. As with the IOS attribute you can override the class behaviour on Test level.
-```csharp
-[TestMethod]
-[IOSBrowserStack("pngG38y26LZ5muB1p46P",
-    "11.3",
-    "iPhone 6",
-    AppBehavior.RestartOnFail,
-    captureVideo: true,
-    captureNetworkLogs: true,
-    consoleLogType: BrowserStackConsoleLogType.Disable,
-    debug: false,
-    build: "CI Execution")]
-public void ButtonClicked_When_CallClickMethodSecond()
-{
-    var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
-
-    button.Click();
-}
+Given I open iOS app with path AssemblyFolder/Demos/TestApp.app.zip in BrowserStack
+And I restart the app on test fail
+And I use device with name iPhone 6
+And I use iOS version 11.3
+And I want to use console log type Warnings
+And I want to record a video of the execution
+And I want to user screen resolution 1200 px x 800 px
+And I want to capture a network logs of the execution
+And I want to set build = myCustomName
+And I open app
 ```
-As mentioned if you use the **BrowserStack** attribute on method level it overrides the class settings.
+To execute BELLATRIX tests in BrowserStack cloud, you could use the BrowserStack predefined steps. BrowserStack integration provides additional steps for capturing video, capturing network logs, setting console log type, build and debug. The last five are optional and have default values.
 
 Configuration
 -------------

@@ -2,7 +2,7 @@
 layout: default
 title:  "Execute Tests in CrossBrowserTesting"
 excerpt: "Learn to use BELLATRIX to execute iOS tests in CrossBrowserTesting."
-date:   2018-11-23 06:50:17 +0200
+date:   2019-05-31 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/execute-tests-crossbrowsertesting/
 anchors:
@@ -12,71 +12,39 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestClass]
-[IOSCrossBrowserTesting("crossBrowser-storage:TestApp.app.zip",
-    "11.3",
-    "iPhone 6",
-    AppBehavior.RestartEveryTime,
-    recordVideo: true,
-    recordNetwork: true,
-    build: "CI Execution")]
-public class CrossBrowserTesting : IOSTest
-{
-    [TestMethod]
-    public void ButtonClicked_When_CallClickMethod()
-    {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
-
-        button.Click();
-    }
-
-    [TestMethod]
-    [IOSCrossBrowserTesting("crossBrowser-storage:TestApp.app.zip",
-        "11.3",
-        "iPhone 6",
-        AppBehavior.ReuseIfStarted,
-        recordVideo: true,
-        recordNetwork: true,
-        build: "CI Execution")]
-    public void ButtonClicked_When_CallClickMethodSecond()
-    {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
-
-        button.Click();
-    }
-}
 ```
+Feature: Navigate to BELLATRIX Online Rocket Shop
+	To purchase a new rocket
+	As a Nuclear Engineer 
+	I want to be able to buy a new rocket.
 
+Background:
+Given I open iOS app with path AssemblyFolder/Demos/TestApp.app.zip in CrossBrowserTesting
+And I use device with name iPhone 6
+And I use iOS version 11.3
+And I want to record a video of the execution
+And I want to user screen resolution 1200 px x 800 px
+And I want to capture a network logs of the execution
+And I want to set build = myCustomName
+And I open app
+
+Scenario: Successfully Sum 5 And 6
+	When I sum 5 and 6
+	Then I assert answer is 11
+```
 Explanations
 ------------
-```csharp
-[IOSCrossBrowserTesting("crossBrowser-storage:TestApp.app.zip",
-    "11.3",
-    "iPhone 6",
-    AppBehavior.RestartEveryTime,
-    recordVideo: true,
-    recordNetwork: true,
-    build: "CI Execution")]
 ```
-To execute BELLATRIX tests in CrossBrowserTesting cloud, you should use the CrossBrowserTesting attribute instead of IOS. CrossBrowserTesting has the same parameters as IOS but adds to additional ones- deviceName, recordVideo, recordNetwork and build. The last three are optional and have default values. As with the IOS attribute you can override the class behaviour on Test level.
-```csharp
-[TestMethod]
-[IOSCrossBrowserTesting("crossBrowser-storage:TestApp.app.zip",
-    "11.3",
-    "iPhone 6",
-    AppBehavior.ReuseIfStarted,
-    recordVideo: true,
-    recordNetwork: true,
-    build: "CI Execution")]
-public void ButtonClicked_When_CallClickMethodSecond()
-{
-    var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
-
-    button.Click();
-}
+Given I open iOS app with path AssemblyFolder/Demos/TestApp.app.zip in CrossBrowserTesting
+And I use device with name iPhone 6
+And I use iOS version 11.3
+And I want to record a video of the execution
+And I want to user screen resolution 1200 px x 800 px
+And I want to capture a network logs of the execution
+And I want to set build = myCustomName
+And I open app
 ```
-As mentioned if you use the BrowserStack attribute on method level it overrides the class settings.
+To execute BELLATRIX tests in CrossBrowserTesting cloud, you could use the BrowserStack predefined steps. CrossBrowserTesting integration provides additional steps for capturing video, capturing network logs, build and debug. The last four are optional and have default values.
 
 Configuration
 -------------
