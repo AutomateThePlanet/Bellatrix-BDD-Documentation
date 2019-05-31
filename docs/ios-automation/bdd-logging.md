@@ -2,7 +2,7 @@
 layout: default
 title:  "Behaviour Driven Development BDD Logging"
 excerpt: "Learn the BELLATRIX Behaviour Driven Development BDD Logging works and how to use it."
-date:   2018-11-22 06:50:17 +0200
+date:   2019-05-31 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/bdd-logging/
 anchors:
@@ -12,30 +12,22 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestMethod]
-public void CommonAssertionsIOSControls()
-{
-    var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+```
+Feature: Navigate to BELLATRIX Online Calculator
+	To purchase a new rocket
+	As a Nuclear Engineer 
+	I want to be able to buy a new rocket.
 
-    button.Click();
+Background:
+Given I use app with path AssemblyFolder/Demos/TestApp.app.zip
+And I restart the app on test fail
+And I use device with name iPhone 6
+And I use iOS version 11.3
+And I open app
 
-    button.EnsureIsNotDisabled();
-
-    var answerLabel = App.ElementCreateService.CreateByValueContaining<Label>("Label");
-
-    answerLabel.EnsureIsVisible();
-
-    var password = App.ElementCreateService.CreateById<Password>("IntegerB");
-
-    password.SetPassword("9");
-
-    var textField = App.ElementCreateService.CreateById<TextField>("IntegerA");
-
-    textField.SetText("1");
-
-    textField.EnsureTextIs("1");
-}
+Scenario: Successfully Sum 5 And 6
+	When I sum 5 and 6
+	Then I assert answer is 11
 ```
 
 Explanations

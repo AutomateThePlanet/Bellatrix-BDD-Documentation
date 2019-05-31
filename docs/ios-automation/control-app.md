@@ -2,7 +2,7 @@
 layout: default
 title:  "Control App"
 excerpt: "Learn how to control iOS applications with BELLATRIX iOS module."
-date:   2018-10-20 06:50:17 +0200
+date:   2019-05-31 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/control-app/
 anchors:
@@ -12,94 +12,75 @@ anchors:
 Overview
 --------
 
-This is how one BELLATRIX test class looks like.
+This is how one BELLATRIX feature file looks like.
 ```csharp
-[TestClass]
-[IOS(Constants.IOSNativeAppPath,
-    Constants.IOSDefaultVersion,
-    Constants.IOSDefaultDeviceName,
-    AppBehavior.ReuseIfStarted)]
-public class BellatrixAppBehaviourTests : IOSTest
-{
-    [TestMethod]
-    public void ButtonClicked_When_CallClickMethod()
-    {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+Feature: Navigate to BELLATRIX Online Calculator
+	To purchase a new rocket
+	As a Nuclear Engineer 
+	I want to be able to buy a new rocket.
 
-        button.Click();
-    }
+Background:
+Given I use app with path AssemblyFolder/Demos/TestApp.app.zip
+And I restart the app on test fail
+And I use device with name iPhone 6
+And I use iOS version 11.3
+And I open app
 
-    [TestMethod]
-    [IOS(Constants.IOSNativeAppPath,
-        Constants.IOSDefaultVersion,
-        Constants.IOSDefaultDeviceName,
-        AppBehavior.RestartOnFail)]
-    public void ReturnsTrue_When_CallButtonIsPresent()
-    {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
-
-        Assert.IsTrue(button.IsPresent);
-    }
-}
+Scenario: Successfully Sum 5 And 6
+	When I sum 5 and 6
+	Then I assert answer is 11
 ```
 
 Explanations
 ------------
-```csharp
-[TestClass]
 ```
-This is the main attribute that you need to mark each class that contains MSTest tests.
-```csharp
-[IOS(Constants.IOSNativeAppPath,
-    Constants.IOSDefaultVersion,
-    Constants.IOSDefaultDeviceName,
-    AppBehavior.ReuseIfStarted)]
+Background:
 ```
-This is the attribute for automatic start/control of iOS apps by BELLATRIX. If you have to do it manually properly, you will need thousands of lines of code.
-**appPath**- sets the path where your app file is.
-**AppBehavior** enum controls when the app is started and stopped. This can drastically increase or decrease the tests execution time, depending on your needs.
-However you need to be careful because in case of tests failures the app may need to be restarted.
-**Available options:**
+This marks the beginning of a special SpecFlow section which will be executed before each scenario.
+```
+Background:
+Given I use app with path AssemblyFolder/Demos/TestApp.app.zip
+And I restart the app on test fail
+And I use device with name iPhone 6
+And I use iOS version 11.3
+And I open app
+```
+These are predefined SpecFlow steps for automatic start/control of Appium and the app by BELLATRIX. If you have to do it manually properly, you will need thousands of lines of code.
+Though the second step you can control the app behavior whether it is reused or restarted. This can drastically increase or decrease the tests execution time, depending on your needs. However you need to be careful because in case of tests failures the app may need to be restarted.
+Available options:
+```
+Given I restart the app every time
+```
+For each scenario a separate WebDriver instance is created and the previous browser is closed. The new browser comes with new cookies and cache.
+```
+I restart the app on test fail
+```
+The browser is only restarted if the previous scenario failed. Alternatively, if the previous test's browser was different.
+```
+I reuse the app if started
+```
+The app is only restarted if the previous scenario's app was different. In all other cases, the app is reused if possible.
 
-- **RestartEveryTime**- for each test a separate WebDriver instance is created and the previous app instance is
-- **RestartOnFail**- the app is only restarted if the previous test failed. Alternatively, if the previous test's app was different.
-- **ReuseIfStarted**- the app is only restarted if the previous test's app was different. In all other cases, the app is reused if possible.
+**Note**: *However, use this option with caution since in some rare cases if you have not properly setup your tests you may need to restart the app if the test fails otherwise all other tests may fail too.*
 
-**Note**: However, use this option with caution since in some rare cases if you have not properly setup your tests you may need to restart the app if the test fails otherwise all other tests may fail too.
-
-There are even more things you can do with this attribute, but we look into them in the next sections.
-
-```csharp
-public class BellatrixAppBehaviourTests : IOSTest
 ```
-All iOS BELLATRIX test classes should inherit from the **IOSTest** base class. This way you can use all built-in BELLATRIX tools and functionalities.
-```csharp
-[IOS(Constants.IOSNativeAppPath,
-    Constants.IOSDefaultVersion,
-    Constants.IOSDefaultDeviceName,
-    AppBehavior.ReuseIfStarted)]
-public class BellatrixAppBehaviourTests : IOSTest
-```
-If you place attribute over the class all tests inherit the behaviour. It is possible to place it over each test and this way it overrides the class behaviour only for this particular test.
-```csharp
-[TestMethod]
-public void ButtonClicked_When_CallClickMethod()
-```
-All MSTest tests should be marked with the **TestMethod** attribute.
-```csharp
-var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
-```
-Use the element creation service to create an instance of the button. There are much more details about this process in the next sections.
-```csharp
-[IOS(Constants.IOSNativeAppPath,
-    Constants.IOSDefaultVersion,
-    Constants.IOSDefaultDeviceName,
-    AppBehavior.RestartOnFail)]
-public void ReturnsTrue_When_CallButtonIsPresent()
+[Binding]
+public class PageObjectsSteps : AndroidSteps
 {
-    var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+    private CalculatorPage _calculatorPage;
 
-    Assert.IsTrue(button.IsPresent);
+    [When(@"I sum (.*) and (.*)")]
+    public void WhenSumNumbers(int firstNumber, int secondNumber)
+    {
+        _calculatorPage = App.Create<CalculatorPage>();
+        _calculatorPage.Sum(firstNumber, secondNumber);
+    }
+
+    [Then(@"I assert answer is (.*)")]
+    public void AssertAnswer(int answer)
+    {
+        _calculatorPage.AssertAnswer(answer);
+    }
 }
 ```
-As mentioned above you can override the app behaviour for a particular test. The global behaviour for all tests in the class is to reuse an instance of the app. Only for this particular test, BELLATRIX opens the app and restarts it only on fail.
+To define your SpecFlow steps, create a new class file. It needs to inherit **IOSSteps** which gives you access to all BELLATRIX services.

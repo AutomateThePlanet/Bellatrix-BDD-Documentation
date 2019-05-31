@@ -2,7 +2,7 @@
 layout: default
 title:  "Templates"
 excerpt: "Learn how to use pre-built BELLATRIX templates."
-date:   2018-11-20 06:50:17 +0200
+date:   2019-05-31 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/templates/
 anchors:
@@ -28,26 +28,16 @@ Before you can create a new project, you need to install the BELLATRIX template 
 
 **All available templates:**
 
-- Bellatrix.API.GettingStarted
-- Bellatrix.API.MSTest.Tests
-- Bellatrix.API.NUnit.Tests
-- Bellatrix.Desktop.GettingStarted
-- Bellatrix.Desktop.MSTest.Tests
-- Bellatrix.Desktop.NUnit.Tests
-- Bellatrix.Web.GettingStarted
-- Bellatrix.Web.MSTest.Tests
-- Bellatrix.Web.NUnit.Tests
-- Bellatrix.Mobile.Android.GettingStarted
-- Bellatrix.Mobile.Android.MSTest.Tests
-- Bellatrix.Mobile.Android.NUnit.Tests
-- Bellatrix.Mobile.IOS.GettingStarted
-- Bellatrix.Mobile.IOS.MSTest.Tests
-- Bellatrix.Mobile.IOS.NUnit.Tests
+- Bellatrix.SpecFlow.Desktop.MSTest.Tests
+- Bellatrix.SpecFlow.Web.MSTest.Tests
+- Bellatrix.SpecFlow.Android.MSTest.Tests
+- Bellatrix.SpecFlow.IOS.MSTest.Tests
+- Bellatrix.SpecFlow.API.MSTest.Tests
 
 **Install Template**
 
 ```
-dotnet new -i Bellatrix.Mobile.IOS.GettingStarted
+dotnet new -i Bellatrix.SpecFlow.IOS.MSTest.Tests
 ```
 
 **Create Project from Template**
@@ -56,7 +46,7 @@ dotnet new -i Bellatrix.Mobile.IOS.GettingStarted
 3. Type the bellow command for the desired template
 
 ```
-dotnet new Bellatrix.Mobile.IOS.GettingStarted
+dotnet new Bellatrix.SpecFlow.IOS.MSTest.Tests
 ```
 
 ![Create Getting Started CLI](images/create-getting-started-console.png)

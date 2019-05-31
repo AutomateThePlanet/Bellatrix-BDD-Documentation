@@ -2,7 +2,7 @@
 layout: default
 title:  "DeviceService"
 excerpt: "Learn how to use BELLATRIX iOS DeviceService."
-date:   2018-11-20 06:50:17 +0200
+date:   2019-05-31 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/device-service/
 anchors:
@@ -11,63 +11,48 @@ anchors:
 ---
 Example
 -------
-```csharp
-[TestClass]
-[IOS(Constants.IOSNativeAppPath,
-    Constants.IOSDefaultVersion,
-    Constants.IOSDefaultDeviceName,
-    AppBehavior.RestartEveryTime)]
-public class DeviceServiceTests : IOSTest
-{
-    [TestMethod]
-    public void OrientationSetToLandscape_When_CallRotateWithLandscape()
-    {
-        App.DeviceService.Rotate(ScreenOrientation.Landscape);
+```
+Feature: Navigate to BELLATRIX Online Calculator
+	To purchase a new rocket
+	As a Nuclear Engineer 
+	I want to be able to buy a new rocket.
 
-        Assert.AreEqual(ScreenOrientation.Landscape, App.DeviceService.Orientation);
+Background:
+Given I use app with path AssemblyFolder/Demos/TestApp.app.zip
+And I restart the app on test fail
+And I use device with name iPhone 6
+And I use iOS version 11.3
+And I open app
 
-        App.DeviceService.Rotate(ScreenOrientation.Portrait);
-    }
-
-    [TestMethod]
-    public void CorrectTimeReturned_When_CallDeviceTime()
-    {
-        BA.DateTimeAssert.AreEqual(DateTime.Now, App.DeviceService.DeviceTime, BA.DateTimeDeltaType.Minutes, 5);
-    }
-
-    [TestMethod]
-    public void DeviceIsLockedTrue_When_CallLock()
-    {
-        App.DeviceService.Lock(1);
-    }
-
-    [TestMethod]
-    public void TestShakeDevice()
-    {
-        App.DeviceService.ShakeDevice();
-    }
-}
+Scenario: Successfully Sum 5 And 6
+	When I shake the iOS device
+	And I change the iOS device orientation to landscape
 ```
 
 Explanations
 ------------
-BELLATRIX gives you an interface to most common operations for controlling the device through the **DeviceService** class.
-```csharp
-App.DeviceService.Rotate(ScreenOrientation.Landscape);
+BELLATRIX gives you predefined steps for most common operations for controlling the device through the **DeviceService** class.
+```
+I rotate the iOS device landscape
 ```
 Rotates the device horizontally.
-```csharp
-Assert.AreEqual(ScreenOrientation.Landscape, App.DeviceService.Orientation);
 ```
-Gets the current device orientation.
-```csharp
-BA.DateTimeAssert.AreEqual(DateTime.Now, App.DeviceService.DeviceTime, BA.DateTimeDeltaType.Minutes, 5);
+I rotate the iOS device portrait
 ```
-Asserts current device time.
-```csharp
-App.DeviceService.Lock(1);
+Rotates the device vertically.
 ```
-```csharp
-App.DeviceService.ShakeDevice();
+I change the iOS device orientation to landscape
+```
+Changes the orientation to landscape.
+```
+I change the iOS device orientation to portrait
+```
+Changes the orientation to portrait.
+```
+I lock the iOS device for 3 seconds
+```
+Locks the device for 3 seconds.
+```
+I shake the iOS device
 ```
 Shakes the device.

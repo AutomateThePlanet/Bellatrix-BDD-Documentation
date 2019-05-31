@@ -2,7 +2,7 @@
 layout: default
 title:  "Folder and File Structure"
 excerpt: "Learn what each BELLATRIX project templates includes."
-date:   2018-11-20 06:50:17 +0200
+date:   2019-05-31 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/folder-and-file-structure/
 anchors:
@@ -19,13 +19,20 @@ Find detailed information about what each empty project contains or should conta
 NuGet Dependencies
 ------------------
 ```
-<PackageReference Include="Bellatrix.Mobile.MSTest" Version="1.1.0.16" />
+<PackageReference Include="Bellatrix.SpecFlow.Mobile.MSTest" Version="1.5.0.5" />
+<PackageReference Include="Bellatrix.SpecFlow.Mobile.TestExecutionExtensions" Version="1.5.0.5" />
+<PackageReference Include="Bellatrix.SpecFlow.TestExecutionExtensions.Common" Version="1.5.0.5" />
+<PackageReference Include="Bellatrix.SpecFlow.TestExecutionExtensions.Screenshots" Version="1.5.0.5" />
+<PackageReference Include="Bellatrix.SpecFlow.TestExecutionExtensions.Video" Version="1.5.0.5" />
+<PackageReference Include="Bellatrix.SpecFlow.TestWorkflowPlugins" Version="1.5.0.5" />
+<PackageReference Include="Bellatrix.SpecFlow.VideoRecording" Version="1.5.0.5" />
+<PackageReference Include="Bellatrix.VideoRecording.FFmpeg" Version="1.5.0.5" />
 
 <PackageReference Include="Bellatrix.Web.MSTest" Version="1.2.8" />
 
-<PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
-<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.2" />
-<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
+<PackageReference Include="SpecFlow" Version="3.0.213" />
+<PackageReference Include="SpecFlow.MsTest" Version="3.0.213" />
+<PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.0.213" />
 <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
 <PackageReference Include="MSTest.TestAdapter" Version="1.3.0" />
 <PackageReference Include="MSTest.TestFramework" Version="1.3.0" />
@@ -33,7 +40,7 @@ NuGet Dependencies
 <PackageReference Include="Unity" Version="5.8.6" />
 <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004"/>
 ```
-As you can see the most important package that you need is **Bellatrix.Mobile.MSTest**, it depends on all below packages. This is the bare minimum. We use the Safari driver for testing mobile web and hybrid application. This is why there is a dependency on **Bellatrix.Web.MSTest** which gives you 
+As you can see the most important package that you need is **Bellatrix.SpecFlow.Mobile.MSTest**, it depends on all below packages. This is the bare minimum. We use the Safari driver for testing mobile web and hybrid application. This is why there is a dependency on **Bellatrix.Web.MSTest** which gives you 
 everything you need to test web apps.
 **Microsoft.NET.Test.Sdk**, **MSTest.TestAdapter**,** MSTest.TestFramework** are prerequisites so that you can execute MSTest framework tests.
 Also, we use Unity inversion of control container inside BELLATRIX for many things.  You will not be able to use it directly, but there are a couple of ways that you will use it in your code for some more complex scenarios.
@@ -68,13 +75,3 @@ There are three files **testFrameworkSettings**. They are JSON files. These are 
 **Note**: *There isn't a way as in .NET Framework to reuse the content, so if you want to make changes you need to do it in each file separately. *
 
 There is a separate more detailed section in the guide describing how to use the configuration files.
-
-MobileTestsGlobalInitialize
----------------
-This is the entry point for all tests. The methods here are executed only once per tests execution. You need it to start and stop some BELLATRIX services that you can use in your tests.
-
-**Note**: *There are separate sections describing in more details the **IOSTest** base class and the **App** class.*
-
-Categories
-----------
-Contains constants that we use to mark our tests for easier filtering.

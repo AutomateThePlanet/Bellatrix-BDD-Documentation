@@ -12,7 +12,7 @@ anchors:
 Overview
 --------
 
-This is how one BELLATRIX test class looks like.
+This is how one BELLATRIX feature file looks like.
 ```csharp
 Feature: Navigate to BELLATRIX Online Rocket Shop
 	To purchase a new rocket

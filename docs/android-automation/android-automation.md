@@ -25,6 +25,6 @@ Checks after each test, its result, depending on the specified video saves the v
 BELLATRIX comes with two modules for helping you apply coding standards in your tests.
 [**Learn more**](/static-analysis.md)
 
-### Desktop Extensibility ###
+### Android Extensibility ###
 One of the greatest features of BELLATRIX is test workflow hooks. It gives you the possibility to execute your logic in every part of the test workflow.
 [**Learn more**](/extensibility-test-workflow-hooks.md)
