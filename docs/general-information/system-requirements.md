@@ -23,7 +23,7 @@ You need **~240 MB of free space** (full installation on Windows)
 
 Supported Code Editors
 ----------------------
-The recommended code editor for writing BELLATRIX tests is Visual Studio 2017 or higher (preferably installed on Windows).
+The recommended code editor for writing BELLATRIX tests is Visual Studio 2015 or higher (preferably installed on Windows).
 
 ### Other Supported Editors: ###
 - Visual Studio Code
@@ -39,3 +39,5 @@ SDKs and Frameworks Prerequisites
 For BELLATRIX desktop modules you need to download [**WinAppDriver**](https://github.com/Microsoft/WinAppDriver/releases). You need to make sure it is started before running any BELLATRIX desktop tests.
 
 For BELLATRIX mobile modules you need to download and install [**Appium**](http://appium.io/). You need to make sure it is started before running any BELLATRIX mobile tests.
+
+For the SpecFlow Visual Studio integration you need to install the VS Plugin- **SpecFlow for Visual Studio**
