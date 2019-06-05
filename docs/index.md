@@ -3,7 +3,6 @@ layout: default
 title:  "BDD Overview"
 excerpt: "All You Need to Write Maintainable Regression Tests"
 date:   2018-02-20 06:50:17 +0200
-permalink: /overview/
 anchors:
   bellatrix-test-automation-framework : BELLATRIX Test Automation Framework 
   meissa-test-runner: Meissa Test Runner
