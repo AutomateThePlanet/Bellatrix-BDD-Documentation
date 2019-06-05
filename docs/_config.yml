@@ -46,7 +46,7 @@ plugins:
 #   - vendor/ruby/
 navigation: 
     "overview":
-        title: Overview
+        title: BDD Overview
         submenu:
     "general-information":
         title: General Information
