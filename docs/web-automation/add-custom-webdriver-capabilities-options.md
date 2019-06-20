@@ -27,7 +27,7 @@ public class CustomWebSteps : WebSteps
 
         App.AddWebDriverOptions(firefoxOptions);
 
-        App.AddWebDriverOptions("disable-popup-blocking", true);
+        App.AddAdditionalCapability("disable-popup-blocking", true);
 
         var profileManager = new FirefoxProfileManager();
         FirefoxProfile profile = profileManager.GetProfile("BELLATRIX");
