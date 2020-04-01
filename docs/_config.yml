@@ -61,6 +61,8 @@ navigation:
                 title: Installation Linux   
             "activation":
                 title: Activation
+            "update":
+                title: Update
     "web-automation":
         title: Web
         submenu:
