@@ -5,8 +5,7 @@ excerpt: "All You Need to Write Maintainable Regression Tests"
 date:   2018-02-20 06:50:17 +0200
 permalink: /overview/
 anchors:
-  bellatrix-test-automation-framework : BELLATRIX Test Automation Framework 
-  meissa-test-runner: Meissa Test Runner
+  bellatrix-test-automation-framework : BELLATRIX Test Automation Framework
 ---
 BELLATRIX Test Automation Framework 
 ---------------------------------------------------------
@@ -24,9 +23,3 @@ There are two approaches to write BELLATRIX automated tests.
 
 Note: [SpecFlow](https://specflow.org/) is a tool binding business requirements to .NET Code or [Cucumber](https://cucumber.io/docs/guides/overview/) for .NET.
 Behavioral Driven Development (BDD) is a software development approach that has evolved from TDD (Test Driven Development). It differs by being written in a shared language, which improves communication between tech and non-tech teams and stakeholders. In both development approaches, tests are written ahead of the code, but in BDD, tests are more user-focused and based on the system’s behavior.
-
-Meissa Test Runner
-------------------
-![Meissa](images/meissa-home-bgr.png)
-
-Our cross-platform distributed test runner that executes tests in parallel, time balanced. Build to extend BELLATRIX capabilities by providing Faster Deployments. Free for the community, find out more [**here**](https://meissarunner.com/)

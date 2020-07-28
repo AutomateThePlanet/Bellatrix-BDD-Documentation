@@ -29,10 +29,10 @@ NOTE: After the support for .NET Core 3.1 and higher, Microsoft officially not s
 
 ### Other Supported Editors: ###
 - Visual Studio Code
-- Visual Studio Mac
+- Visual Studio for Mac
 - Rider: Cross-platform .NET IDE
 
-**Note**: Keep in mind that some of the BELLATRIX are working only for Visual Studio on Windows, other editors don't support them. These features are:** VS project templates**, **VS item templates** and **VS snippets**.
+**Note**: Keep in mind that some of the BELLATRIX are working only for Visual Studio on Windows, other editors don't support them. These features are: **VS item templates** and **VS snippets**.
 
 SDKs and Frameworks Prerequisites
 -------------------------------- 
